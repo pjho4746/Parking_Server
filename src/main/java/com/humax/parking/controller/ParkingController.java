@@ -1,4 +1,86 @@
 package com.humax.parking.controller;
 
+import com.humax.parking.dto.ParkingDTO;
+import com.humax.parking.model.ParkingEntity;
+import com.humax.parking.repository.ParkingRepository;
+import com.humax.parking.service.ParkingService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.*;
+
+@Slf4j
+@RestController
+@RequestMapping(value = "/api/v1/parking")
+@RequiredArgsConstructor
 public class ParkingController {
+    private final ParkingService parkingService;
+
+    private final ParkingRepository parkingRepository;
+
+
+    @PostMapping("/create")
+    public ResponseEntity<String> createParkingInfo(@RequestBody ParkingDTO parkingDTO) {
+        parkingService.createParkingInfo(parkingDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("성공적으로 추가되었습니다.");
+    }
+
+    @GetMapping("/read/list")
+    public ResponseEntity<List<ParkingDTO>> getParkingInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingInfo());
+    }
+
+
+    @GetMapping("/read/detail/{parking_id}")
+    public ResponseEntity<ParkingDTO> getParkingDetail(@PathVariable Long parking_id){
+        return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingDetail(parking_id));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<ParkingDTO> updateParking(ParkingDTO parkingDTO){
+        ParkingEntity existingParking = parkingRepository.findByParkingId(parkingDTO.getParkingId()).orElse(null);
+        if(existingParking != null){
+            existingParking.setCodeNumber(parkingDTO.getCodeNumber());
+            existingParking.setName(parkingDTO.getName());
+            existingParking.setAddress(parkingDTO.getAddress());
+            existingParking.setLat(parkingDTO.getLat());
+            existingParking.setAddress(parkingDTO.getAddress());
+            existingParking.setLat(parkingDTO.getLat());
+            existingParking.setLon(parkingDTO.getLon());
+            existingParking.setOperatingTime(parkingDTO.getOperatingTime());
+            existingParking.setNormalSeason(parkingDTO.getNormalSeason());
+            existingParking.setTenantSeason(parkingDTO.getTenantSeason());
+            existingParking.setTimeTicket(parkingDTO.getTimeTicket());
+            existingParking.setDayTicket(parkingDTO.getDayTicket());
+            existingParking.setSpecialDay(parkingDTO.getSpecialDay());
+            existingParking.setSpecialHour(parkingDTO.getSpecialHour());
+            existingParking.setSpecialNight(parkingDTO.getSpecialNight());
+            existingParking.setSpecialWeekend(parkingDTO.getSpecialWeekend());
+            existingParking.setApplyHour(parkingDTO.getApplyHour());
+            existingParking.setApplyNight(parkingDTO.getApplyNight());
+            existingParking.setApplyWeekend(parkingDTO.getApplyWeekend());
+            existingParking.setIsActive(parkingDTO.getIsActive());
+            existingParking.setOperation(parkingDTO.getOperation());
+            existingParking.setCreatedAt(parkingDTO.getCreatedAt());
+            existingParking.setDeletedAt(parkingDTO.getDeletedAt());
+            existingParking.setTime(parkingDTO.getTime());
+            existingParking.setPrice(parkingDTO.getPrice());
+            return new ResponseEntity<>(new ParkingDTO(parkingRepository.save(existingParking)), HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteParking(@PathVariable Long parking_id) {
+        parkingService.deleteParking(parking_id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("삭제되었습니다.");
+    }
 }
+
+

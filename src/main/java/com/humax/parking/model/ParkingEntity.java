@@ -1,9 +1,7 @@
 package com.humax.parking.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,9 +13,11 @@ import javax.persistence.GenerationType;
 @Entity
 @Builder
 @Data
+@Setter
 @Table(name = "parking_data")
 @NoArgsConstructor
 @AllArgsConstructor
+@Where(clause = "delete_flag=0")
 public class ParkingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -98,5 +98,8 @@ public class ParkingEntity {
 
     @Column(name = "price")
     private String price;
+
+    @Column(name="delete_flag", nullable = false)
+    private Boolean deleteYn;
 
 }

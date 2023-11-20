@@ -39,6 +39,7 @@ public class ParkingDTO {
     private String deletedAt;
     private String time;
     private String price;
+    private Boolean deleteYn;
 
 
     public ParkingDTO(final ParkingEntity entity){
@@ -68,6 +69,7 @@ public class ParkingDTO {
         this.deletedAt = entity.getDeletedAt();
         this.time = entity.getTime();
         this.price = entity.getPrice();
+        this.deleteYn = false;
     }
 
     public ParkingEntity toEntity(){
@@ -96,6 +98,7 @@ public class ParkingDTO {
                 .deletedAt(deletedAt)
                 .time(time)
                 .price(price)
+                .deleteYn(false)
                 .build();
     }
 
