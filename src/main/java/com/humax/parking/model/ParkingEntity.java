@@ -19,7 +19,7 @@ import javax.persistence.GenerationType;
 @Table(name = "parking_data")
 @NoArgsConstructor
 @AllArgsConstructor
-@Where(clause = "delete_flag=0")
+@Where(clause = "delete_flag=0 OR delete_flag IS NULL")
 public class ParkingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
