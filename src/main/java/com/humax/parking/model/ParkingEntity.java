@@ -1,5 +1,6 @@
 package com.humax.parking.model;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.Where;
 

@@ -6,7 +6,6 @@ import com.humax.parking.repository.ParkingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -21,13 +20,52 @@ public class ParkingService {
 
     private final ParkingRepository parkingRepository;
 
+//    @Transactional
+//    public void createParkingInfo(ParkingDTO parkingDTO) {
+//        ParkingEntity parkingEntity = parkingRepository.findByCodeNumber(parkingDTO.getCodeNumber());
+//        if (parkingEntity != null) { // 이미 저장된 값이 있다면 에러 반환
+//            throw new RuntimeException();
+//        }
+//        parkingRepository.save(parkingEntity);
+//    }
+
     @Transactional
     public void createParkingInfo(ParkingDTO parkingDTO) {
         ParkingEntity parkingEntity = parkingRepository.findByCodeNumber(parkingDTO.getCodeNumber());
         if (parkingEntity != null) { // 이미 저장된 값이 있다면 에러 반환
-            throw new RuntimeException();
+            throw new RuntimeException("ParkingEntity already exists with the given code number.");
+        } else {
+            // 해당 코드 넘버를 가진 ParkingEntity가 없는 경우에만 새로운 엔티티 생성하여 저장
+            parkingEntity = new ParkingEntity();
+            parkingEntity.setCodeNumber(parkingDTO.getCodeNumber());
+            parkingEntity.setName(parkingDTO.getName());
+            parkingEntity.setAddress(parkingDTO.getAddress());
+            parkingEntity.setLat(parkingDTO.getLat());
+            parkingEntity.setLon(parkingDTO.getLon());
+            parkingEntity.setOperatingTime(parkingDTO.getOperatingTime());
+            parkingEntity.setNormalSeason(parkingDTO.getNormalSeason());
+            parkingEntity.setTenantSeason(parkingDTO.getTenantSeason());
+            parkingEntity.setTimeTicket(parkingDTO.getTimeTicket());
+            parkingEntity.setDayTicket(parkingDTO.getDayTicket());
+            parkingEntity.setSpecialDay(parkingDTO.getSpecialDay());
+            parkingEntity.setSpecialHour(parkingDTO.getSpecialHour());
+            parkingEntity.setSpecialNight(parkingDTO.getSpecialNight());
+            parkingEntity.setSpecialWeekend(parkingDTO.getSpecialWeekend());
+            parkingEntity.setApplyDay(parkingDTO.getApplyDay());
+            parkingEntity.setApplyHour(parkingDTO.getApplyHour());
+            parkingEntity.setApplyNight(parkingDTO.getApplyNight());
+            parkingEntity.setApplyWeekend(parkingDTO.getApplyWeekend());
+            parkingEntity.setIsActive(parkingDTO.getIsActive());
+            parkingEntity.setOperation(parkingDTO.getOperation());
+            parkingEntity.setCreatedAt(parkingDTO.getCreatedAt());
+            parkingEntity.setUpdatedAt(parkingDTO.getUpdatedAt());
+            parkingEntity.setDeletedAt(parkingDTO.getDeletedAt());
+            parkingEntity.setTime(parkingDTO.getTime());
+            parkingEntity.setPrice(parkingDTO.getPrice());
+            parkingEntity.setDeleteYn(parkingDTO.getDeleteYn());
+
+            parkingRepository.save(parkingEntity);
         }
-        parkingRepository.save(parkingEntity);
     }
 
     @Transactional
@@ -46,7 +84,7 @@ public class ParkingService {
     public ParkingDTO createParkingDTO(ParkingEntity parkingEntity){
         Long parkingId = parkingEntity.getParkingId();
         return ParkingDTO.builder()
-                .parkingId(parkingId)
+                .parkingId(parkingEntity.getParkingId())
                 .codeNumber(parkingEntity.getCodeNumber())
                 .name(parkingEntity.getName())
                 .address(parkingEntity.getAddress())
