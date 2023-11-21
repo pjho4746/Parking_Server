@@ -2,6 +2,7 @@ package com.humax.parking.model;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
@@ -100,7 +101,8 @@ public class ParkingEntity {
     @Column(name = "price")
     private String price;
 
-    @Column(name="delete_flag", nullable = false)
+    @Column(name="delete_flag")
+    @ColumnDefault("0")
     private Boolean deleteYn;
 
 }
