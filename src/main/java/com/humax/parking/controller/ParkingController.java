@@ -39,33 +39,34 @@ public class ParkingController {
         return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingDetail(parking_id));
     }
 
-    @PutMapping("/update")
+    @PatchMapping("/update")
     public ResponseEntity<ParkingDTO> updateParking(@RequestBody ParkingDTO parkingDTO){
         ParkingEntity existingParking = parkingRepository.findByParkingId(parkingDTO.getParkingId()).orElse(null);
         if(existingParking != null){
-            existingParking.setCodeNumber(parkingDTO.getCodeNumber());
-            existingParking.setName(parkingDTO.getName());
-            existingParking.setAddress(parkingDTO.getAddress());
-            existingParking.setLat(parkingDTO.getLat());
-            existingParking.setLon(parkingDTO.getLon());
-            existingParking.setOperatingTime(parkingDTO.getOperatingTime());
-            existingParking.setNormalSeason(parkingDTO.getNormalSeason());
-            existingParking.setTenantSeason(parkingDTO.getTenantSeason());
-            existingParking.setTimeTicket(parkingDTO.getTimeTicket());
-            existingParking.setDayTicket(parkingDTO.getDayTicket());
-            existingParking.setSpecialDay(parkingDTO.getSpecialDay());
-            existingParking.setSpecialHour(parkingDTO.getSpecialHour());
-            existingParking.setSpecialNight(parkingDTO.getSpecialNight());
-            existingParking.setSpecialWeekend(parkingDTO.getSpecialWeekend());
-            existingParking.setApplyHour(parkingDTO.getApplyHour());
-            existingParking.setApplyNight(parkingDTO.getApplyNight());
-            existingParking.setApplyWeekend(parkingDTO.getApplyWeekend());
-            existingParking.setIsActive(parkingDTO.getIsActive());
-            existingParking.setOperation(parkingDTO.getOperation());
-            existingParking.setCreatedAt(parkingDTO.getCreatedAt());
-            existingParking.setDeletedAt(parkingDTO.getDeletedAt());
-            existingParking.setTime(parkingDTO.getTime());
-            existingParking.setPrice(parkingDTO.getPrice());
+            existingParking.setCodeNumber(Optional.ofNullable(parkingDTO.getCodeNumber()).orElse(existingParking.getCodeNumber()));
+            existingParking.setName(Optional.ofNullable(parkingDTO.getName()).orElse(existingParking.getName()));
+            existingParking.setAddress(Optional.ofNullable(parkingDTO.getAddress()).orElse(existingParking.getAddress()));
+            existingParking.setLat(Optional.ofNullable(parkingDTO.getLat()).orElse(existingParking.getLat()));
+            existingParking.setLon(Optional.ofNullable(parkingDTO.getLon()).orElse(existingParking.getLon()));
+            existingParking.setOperatingTime(Optional.ofNullable(parkingDTO.getOperatingTime()).orElse(existingParking.getOperatingTime()));
+            existingParking.setNormalSeason(Optional.ofNullable(parkingDTO.getNormalSeason()).orElse(existingParking.getNormalSeason()));
+            existingParking.setTenantSeason(Optional.ofNullable(parkingDTO.getTenantSeason()).orElse(existingParking.getTenantSeason()));
+            existingParking.setTimeTicket(Optional.ofNullable(parkingDTO.getTimeTicket()).orElse(existingParking.getTimeTicket()));
+            existingParking.setDayTicket(Optional.ofNullable(parkingDTO.getDayTicket()).orElse(existingParking.getDayTicket()));
+            existingParking.setSpecialDay(Optional.ofNullable(parkingDTO.getSpecialDay()).orElse(existingParking.getSpecialDay()));
+            existingParking.setSpecialHour(Optional.ofNullable(parkingDTO.getSpecialHour()).orElse(existingParking.getSpecialHour()));
+            existingParking.setSpecialNight(Optional.ofNullable(parkingDTO.getSpecialNight()).orElse(existingParking.getSpecialNight()));
+            existingParking.setSpecialWeekend(Optional.ofNullable(parkingDTO.getSpecialWeekend()).orElse(existingParking.getSpecialWeekend()));
+            existingParking.setApplyHour(Optional.ofNullable(parkingDTO.getApplyHour()).orElse(existingParking.getApplyHour()));
+            existingParking.setApplyNight(Optional.ofNullable(parkingDTO.getApplyNight()).orElse(existingParking.getApplyNight()));
+            existingParking.setApplyWeekend(Optional.ofNullable(parkingDTO.getApplyWeekend()).orElse(existingParking.getApplyWeekend()));
+            existingParking.setIsActive(Optional.ofNullable(parkingDTO.getIsActive()).orElse(existingParking.getIsActive()));
+            existingParking.setOperation(Optional.ofNullable(parkingDTO.getOperation()).orElse(existingParking.getOperation()));
+            existingParking.setCreatedAt(Optional.ofNullable(parkingDTO.getCreatedAt()).orElse(existingParking.getCreatedAt()));
+            existingParking.setDeletedAt(Optional.ofNullable(parkingDTO.getDeletedAt()).orElse(existingParking.getDeletedAt()));
+            existingParking.setTime(Optional.ofNullable(parkingDTO.getTime()).orElse(existingParking.getTime()));
+            existingParking.setPrice(Optional.ofNullable(parkingDTO.getPrice()).orElse(existingParking.getPrice()));
+
             return new ResponseEntity<>(new ParkingDTO(parkingRepository.save(existingParking)), HttpStatus.OK);
         }
         else{
