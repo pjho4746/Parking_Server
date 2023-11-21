@@ -76,7 +76,7 @@ public class ParkingController {
     }
 
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{parking_id}")
     public ResponseEntity<String> deleteParking(@PathVariable Long parking_id) {
         parkingService.deleteParking(parking_id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("삭제되었습니다.");
