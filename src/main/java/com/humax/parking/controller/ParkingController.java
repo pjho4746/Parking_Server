@@ -40,7 +40,7 @@ public class ParkingController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ParkingDTO> updateParking(ParkingDTO parkingDTO){
+    public ResponseEntity<ParkingDTO> updateParking(@RequestBody ParkingDTO parkingDTO){
         ParkingEntity existingParking = parkingRepository.findByParkingId(parkingDTO.getParkingId()).orElse(null);
         if(existingParking != null){
             existingParking.setCodeNumber(parkingDTO.getCodeNumber());
