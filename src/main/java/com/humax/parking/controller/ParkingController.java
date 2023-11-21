@@ -47,8 +47,6 @@ public class ParkingController {
             existingParking.setName(parkingDTO.getName());
             existingParking.setAddress(parkingDTO.getAddress());
             existingParking.setLat(parkingDTO.getLat());
-            existingParking.setAddress(parkingDTO.getAddress());
-            existingParking.setLat(parkingDTO.getLat());
             existingParking.setLon(parkingDTO.getLon());
             existingParking.setOperatingTime(parkingDTO.getOperatingTime());
             existingParking.setNormalSeason(parkingDTO.getNormalSeason());
