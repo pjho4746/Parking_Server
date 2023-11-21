@@ -20,14 +20,6 @@ public class ParkingService {
 
     private final ParkingRepository parkingRepository;
 
-//    @Transactional
-//    public void createParkingInfo(ParkingDTO parkingDTO) {
-//        ParkingEntity parkingEntity = parkingRepository.findByCodeNumber(parkingDTO.getCodeNumber());
-//        if (parkingEntity != null) { // 이미 저장된 값이 있다면 에러 반환
-//            throw new RuntimeException();
-//        }
-//        parkingRepository.save(parkingEntity);
-//    }
 
     @Transactional
     public void createParkingInfo(ParkingDTO parkingDTO) {
