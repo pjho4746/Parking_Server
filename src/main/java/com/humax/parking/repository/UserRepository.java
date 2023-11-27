@@ -34,7 +34,8 @@ public class UserRepository {
         QParkingEntity parkingEntity = QParkingEntity.parkingEntity;
 
         return queryFactory
-                .selectFrom(parkingEntity)
+                .select(parkingEntity)
+                .from(parkingEntity)
                 .where(Expressions.numberTemplate(Double.class,
                                 "FUNCTION('ST_Distance_Sphere', FUNCTION('POINT', {0}, {1}), FUNCTION('POINT', {2}, {3}))",
                                 parkingEntity.lon, parkingEntity.lat, userLon, userLat)

@@ -18,9 +18,9 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     @PostMapping("/search")
-    public ResponseEntity<List<ParkingDTO>> getNearParking(@RequestBody UserLocationDTO userLocationDTO){
+    public ResponseEntity<List<ParkingInfoDTO>> getNearParking(@RequestBody UserLocationDTO userLocationDTO){
         try{
-            List<ParkingDTO> nearbyParking = userService.findNearbyParking(userLocationDTO);
+            List<ParkingInfoDTO> nearbyParking = userService.findNearbyParking(userLocationDTO);
             return ResponseEntity.status(HttpStatus.OK).body(nearbyParking);
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

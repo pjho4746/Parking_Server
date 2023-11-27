@@ -1,9 +1,9 @@
 package com.humax.parking.service;
 
-import com.humax.parking.dto.ParkingDTO;
-import com.humax.parking.dto.UserLocationDTO;
+import com.humax.parking.dto.*;
 import com.humax.parking.model.ParkingEntity;
 import com.humax.parking.repository.UserRepository;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public List<ParkingDTO> findNearbyParking(UserLocationDTO userLocationDTO){
+    public List<ParkingInfoDTO> findNearbyParking(UserLocationDTO userLocationDTO){
         try{
             double userLatitude = Double.parseDouble(userLocationDTO.getLat());
             double userLongitude = Double.parseDouble(userLocationDTO.getLon());
@@ -27,7 +27,17 @@ public class UserService {
             List<ParkingEntity> nearParkingEntities = userRepository.findNearbyParking(
                     userLatitude, userLongitude, maxDistance);
 
-            return mapEntitiesToDTOs(nearParkingEntities);
+            List<ParkingInfoDTO> parkingInfoDTOs = new ArrayList<>();
+            for (ParkingEntity parkingEntity : nearParkingEntities) {
+                ParkingInfoDTO parkingInfoDTO = new ParkingInfoDTO();
+                parkingInfoDTO.setName(parkingEntity.getName());
+                parkingInfoDTO.setOperationTime(parkingEntity.getOperatingTime());
+                parkingInfoDTO.setTimeTicket(parkingEntity.getTimeTicket());
+
+                parkingInfoDTOs.add(parkingInfoDTO);
+            }
+
+            return parkingInfoDTOs;
         } catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException("가까운 주차장을 찾지 못했습니다.", e);
