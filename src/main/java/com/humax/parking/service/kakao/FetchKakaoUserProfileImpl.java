@@ -31,8 +31,10 @@ public class FetchKakaoUserProfileImpl implements FetchKakaoUserProfile {
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper objectMapper = new ObjectMapper();
 
+        // 여기 포함되어 있는 Authorization은 사용자 정보를 가져오는 url에서만 보임
         HttpEntity<Void> httpEntity = createProfileHttpEntity(accessToken);
 
+        // 이 응답에는 사용자의 프로필 정보가 담겨있음
         ResponseEntity<String> responseEntity = restTemplate.exchange(
                 endPoint,
                 HttpMethod.GET,

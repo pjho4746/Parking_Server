@@ -60,7 +60,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
         //String token = authorization.split(" ")[1];// 원래 공백
         String token = authorization;
-        System.out.println(token +"!!!!");
 
         try {
             UserPrincipal userPrincipal = createPrincipalFromToken(token);
