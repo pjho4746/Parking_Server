@@ -27,33 +27,6 @@ public class ParkingService {
             throw new RuntimeException("ParkingEntity already exists with the given code number.");
         } else {
             // 해당 코드 넘버를 가진 ParkingEntity가 없는 경우에만 새로운 엔티티 생성하여 저장
-//            parkingEntity = new ParkingEntity();
-//            parkingEntity.setCodeNumber(parkingDTO.getCodeNumber());
-//            parkingEntity.setName(parkingDTO.getName());
-//            parkingEntity.setAddress(parkingDTO.getAddress());
-//            parkingEntity.setLat(parkingDTO.getLat());
-//            parkingEntity.setLon(parkingDTO.getLon());
-//            parkingEntity.setOperatingTime(parkingDTO.getOperatingTime());
-//            parkingEntity.setNormalSeason(parkingDTO.getNormalSeason());
-//            parkingEntity.setTenantSeason(parkingDTO.getTenantSeason());
-//            parkingEntity.setTimeTicket(parkingDTO.getTimeTicket());
-//            parkingEntity.setDayTicket(parkingDTO.getDayTicket());
-//            parkingEntity.setSpecialDay(parkingDTO.getSpecialDay());
-//            parkingEntity.setSpecialHour(parkingDTO.getSpecialHour());
-//            parkingEntity.setSpecialNight(parkingDTO.getSpecialNight());
-//            parkingEntity.setSpecialWeekend(parkingDTO.getSpecialWeekend());
-//            parkingEntity.setApplyDay(parkingDTO.getApplyDay());
-//            parkingEntity.setApplyHour(parkingDTO.getApplyHour());
-//            parkingEntity.setApplyNight(parkingDTO.getApplyNight());
-//            parkingEntity.setApplyWeekend(parkingDTO.getApplyWeekend());
-//            parkingEntity.setIsActive(parkingDTO.getIsActive());
-//            parkingEntity.setOperation(parkingDTO.getOperation());
-//            parkingEntity.setCreatedAt(parkingDTO.getCreatedAt());
-//            parkingEntity.setUpdatedAt(parkingDTO.getUpdatedAt());
-//            parkingEntity.setDeletedAt(parkingDTO.getDeletedAt());
-//            parkingEntity.setTime(parkingDTO.getTime());
-//            parkingEntity.setPrice(parkingDTO.getPrice());
-//            parkingEntity.setDeleteYn(parkingDTO.getDeleteYn());
             parkingEntity = parkingDTO.toEntity();
             parkingRepository.save(parkingEntity);
         }

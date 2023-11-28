@@ -30,10 +30,22 @@ public class UserService {
             List<ParkingInfoDTO> parkingInfoDTOs = new ArrayList<>();
             for (ParkingEntity parkingEntity : nearParkingEntities) {
                 ParkingInfoDTO parkingInfoDTO = new ParkingInfoDTO();
-                parkingInfoDTO.setName(parkingEntity.getName());
-                parkingInfoDTO.setOperationTime(parkingEntity.getOperatingTime());
-                parkingInfoDTO.setTimeTicket(parkingEntity.getTimeTicket());
 
+                parkingInfoDTO.setName(parkingEntity.getName());
+                parkingInfoDTO.setAddress(parkingEntity.getAddress());
+                parkingInfoDTO.setOperatingTime(parkingEntity.getOperatingTime());
+                parkingInfoDTO.setTimeTicket(parkingEntity.getTimeTicket());
+                parkingInfoDTO.setNormalSeason(parkingEntity.getNormalSeason());
+                parkingInfoDTO.setTenantSeason(parkingEntity.getTenantSeason());
+                parkingInfoDTO.setDayTicket(parkingEntity.getDayTicket());
+                parkingInfoDTO.setSpecialDay(parkingEntity.getSpecialDay());
+                parkingInfoDTO.setSpecialHour(parkingEntity.getSpecialHour());
+                parkingInfoDTO.setSpecialNight(parkingEntity.getSpecialNight());
+                parkingInfoDTO.setSpecialWeekend(parkingEntity.getSpecialWeekend());
+                parkingInfoDTO.setApplyDay(parkingEntity.getApplyDay());
+                parkingInfoDTO.setApplyHour(parkingEntity.getApplyHour());
+                parkingInfoDTO.setApplyNight(parkingEntity.getApplyNight());
+                parkingInfoDTO.setApplyWeekend(parkingEntity.getApplyWeekend());
                 parkingInfoDTOs.add(parkingInfoDTO);
             }
 
@@ -47,11 +59,6 @@ public class UserService {
         }
     }
 
-    private List<ParkingDTO>mapEntitiesToDTOs(List<ParkingEntity> parkingEntities){
-        return parkingEntities.stream()
-                .map(ParkingDTO::new)
-                .collect(Collectors.toList());
-    }
 
     private void updateSearchCount(List<ParkingEntity> parkingEntities){
         for(ParkingEntity parkingEntity : parkingEntities){
