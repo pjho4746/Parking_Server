@@ -89,9 +89,9 @@ public class JwtFilter extends OncePerRequestFilter {
                 "/oauth/kakao/login",
                 "/api/v1/parking/create",
                 "/api/v1/parking/read/list",
-                "/api/v1/parking/read/detail/{parking_id}",
+                "/api/v1/parking/read/detail/**",
                 "/api/v1/parking/update",
-                "/api/v1/parking/delete/{parking_id}",
+                "/api/v1/parking/delete/**",
                 "/api/v1/user/search",
                 "/favicon.ico");
 
