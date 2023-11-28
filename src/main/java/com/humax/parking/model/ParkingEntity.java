@@ -1,6 +1,5 @@
 package com.humax.parking.model;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
@@ -105,4 +104,6 @@ public class ParkingEntity {
     @ColumnDefault("0")
     private Boolean deleteYn;
 
+    @Column(name = "search_count")
+    private Long searchCount;
 }
