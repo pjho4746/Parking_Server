@@ -12,5 +12,4 @@ public class ParkingInfoDTO {
 
     private String timeTicket;
 
-    private String distance;
 }

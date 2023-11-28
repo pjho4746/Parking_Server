@@ -37,6 +37,9 @@ public class UserService {
                 parkingInfoDTOs.add(parkingInfoDTO);
             }
 
+            // 검색 횟수 갱신
+            updateSearchCount(nearParkingEntities);
+
             return parkingInfoDTOs;
         } catch (Exception e){
             e.printStackTrace();
@@ -48,5 +51,11 @@ public class UserService {
         return parkingEntities.stream()
                 .map(ParkingDTO::new)
                 .collect(Collectors.toList());
+    }
+
+    private void updateSearchCount(List<ParkingEntity> parkingEntities){
+        for(ParkingEntity parkingEntity : parkingEntities){
+            parkingEntity.setSearchCount(parkingEntity.getSearchCount()+1);
+        }
     }
 }

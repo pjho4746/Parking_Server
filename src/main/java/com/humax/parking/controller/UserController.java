@@ -25,15 +25,5 @@ public class UserController {
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-
     }
-
-//    @GetMapping("/detail/{parking_id}")
-//    public ResponseEntity<List<ParkingDTO>> getUserParkingDetail(@PathVariable Long parking_id){
-//
-//    }
-//
-//    @GetMapping("/calculatefee")
-//    public ResponseEntity<String> getUserParkingFee(//사용자 정보, 어느 주차장, 출입시간){
-//    }
 }
