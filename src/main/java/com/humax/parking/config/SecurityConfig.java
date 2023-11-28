@@ -21,6 +21,11 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors().and()
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests
+                                .antMatchers("/**").permitAll() // 모든 경로에 대해 인증 없이 접근 허용
+                                .anyRequest().authenticated() // 그 외의 요청에는 인증 필요
+                )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
