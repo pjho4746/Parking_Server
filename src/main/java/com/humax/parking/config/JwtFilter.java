@@ -53,7 +53,7 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
 
-//        if (authorization == null || !authorization.startsWith("Bearer ")) {
+//        if (authorization == null ) { //|| !authorization.startsWith("Bearer ")
 //            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "토큰 누락");
 //            return;
 //        }
@@ -87,8 +87,13 @@ public class JwtFilter extends OncePerRequestFilter {
         List<String> allowedPath = Arrays.asList(
                 "/kakao/login",
                 "/oauth/kakao/login",
-                "/favicon.ico",
-                "/**");
+                "/api/v1/parking/create",
+                "/api/v1/parking/read/list",
+                "/api/v1/parking/read/detail/{parking_id}",
+                "/api/v1/parking/update",
+                "/api/v1/parking/delete/{parking_id}",
+                "/api/v1/user/search",
+                "/favicon.ico");
 
         String path = request.getRequestURI();
 
