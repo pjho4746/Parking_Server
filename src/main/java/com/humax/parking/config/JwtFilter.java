@@ -87,7 +87,8 @@ public class JwtFilter extends OncePerRequestFilter {
         List<String> allowedPath = Arrays.asList(
                 "/kakao/login",
                 "/oauth/kakao/login",
-                "/favicon.ico");
+                "/favicon.ico",
+                "/**");
 
         String path = request.getRequestURI();
 
