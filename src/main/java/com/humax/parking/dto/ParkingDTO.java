@@ -41,6 +41,8 @@ public class ParkingDTO {
     private String price;
     private Boolean deleteYn;
 
+    private Long searchCount;
+
 
     public ParkingDTO(final ParkingEntity entity){
         this.parkingId = entity.getParkingId();
@@ -70,6 +72,7 @@ public class ParkingDTO {
         this.time = entity.getTime();
         this.price = entity.getPrice();
         this.deleteYn = false;
+        this.searchCount = entity.getSearchCount();
     }
 
     public ParkingEntity toEntity(){
@@ -99,8 +102,7 @@ public class ParkingDTO {
                 .time(time)
                 .price(price)
                 .deleteYn(false)
+                .searchCount(searchCount)
                 .build();
     }
-
-
 }
