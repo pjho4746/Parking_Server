@@ -26,4 +26,26 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @GetMapping("/read/list")
+    public ResponseEntity<List<ParkingInfoDTO>> getParkingInfoForUI() {
+        try {
+            List<ParkingInfoDTO> parkingInfoList = userService.getParkingInfo();
+            return ResponseEntity.status(HttpStatus.OK).body(parkingInfoList);
+        } catch (Exception e) {
+            log.error("주차장 정보 목록을 가져오는 중 오류 발생", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/read/detail/{parking_id}")
+    public ResponseEntity<ParkingInfoDTO> getParkingDetail(@PathVariable("parking_id") Long parkingId) {
+        try {
+            ParkingInfoDTO parkingDetail = userService.getParkingDetail(parkingId);
+            return ResponseEntity.status(HttpStatus.OK).body(parkingDetail);
+        } catch (Exception e) {
+            log.error("주차장 상세 정보를 가져오는 중 오류 발생: {}", parkingId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }
