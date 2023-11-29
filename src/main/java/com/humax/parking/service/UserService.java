@@ -31,6 +31,7 @@ public class UserService {
             for (ParkingEntity parkingEntity : nearParkingEntities) {
                 ParkingInfoDTO parkingInfoDTO = new ParkingInfoDTO();
 
+                parkingInfoDTO.setParkingId(parkingEntity.getParkingId());
                 parkingInfoDTO.setName(parkingEntity.getName());
                 parkingInfoDTO.setAddress(parkingEntity.getAddress());
                 parkingInfoDTO.setOperatingTime(parkingEntity.getOperatingTime());

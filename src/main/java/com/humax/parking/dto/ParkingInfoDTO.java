@@ -7,6 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 public class ParkingInfoDTO {
+    private Long parkingId;
     private String name;
     private String address;
     private String operatingTime;
