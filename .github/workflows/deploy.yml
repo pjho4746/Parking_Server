@@ -39,8 +39,8 @@ jobs:
       - name: Docker build & push to docker repo
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}/humax_api .
-          docker push ${{ secrets.DOCKER_REPO }}/humax_api
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}/humax16 .
+          docker push ${{ secrets.DOCKER_REPO }}/humax16
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
@@ -52,6 +52,6 @@ jobs:
           envs: GITHUB_SHA
           script: |
             sudo docker rm -f $(docker ps -qa)
-            sudo docker pull ${{ secrets.DOCKER_REPO }}/humax_api
+            sudo docker pull ${{ secrets.DOCKER_REPO }}/humax16
             docker-compose up -d
             docker image prune -f
