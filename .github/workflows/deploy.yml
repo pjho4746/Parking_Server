@@ -50,8 +50,8 @@ jobs:
           username: ubuntu
           key: ${{ secrets.KEY }}
           envs: GITHUB_SHA
-        script: |
-          sudo docker rm -f $(docker ps -qa)
-          sudo docker pull ${{ secrets.DOCKER_USERNAME }}/humax16:latest
-          docker-compose up -d
-          docker image prune -f
+          script: |
+            sudo docker rm -f $(docker ps -qa)
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/humax16:latest
+            docker-compose up -d
+            docker image prune -f
