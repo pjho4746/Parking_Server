@@ -38,4 +38,5 @@ public class UserPrincipal implements Serializable {
                 //user.getLoginType());
     }
 
+
 }
