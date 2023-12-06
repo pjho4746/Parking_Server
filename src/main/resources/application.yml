@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/${DB_NAME}?serverTimezone=Asia/Seoul
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        database-platform: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+        format_sql: true
+      org.hibernate.type.descriptor.sql: trace
+  logging:
+    level:
+      root: debug
+  session:
+    store-type: jdbc
+    jwt:
+      secretKey: ${SECRET_KEY}
+      blacklist:
+        access-token: BlackList_AccessToken_
+    mvc:
+      pathmatch:
+        matching-strategy: ant_path_matcher
+  security:
+    user:
+      password:
+
