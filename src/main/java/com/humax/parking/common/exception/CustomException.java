@@ -22,3 +22,4 @@ public class CustomException extends RuntimeException {
         this.detail = detail;
     }
 }
+
