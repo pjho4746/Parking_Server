@@ -39,9 +39,7 @@ public class OauthController {
     public void kakaoLogin(@RequestParam(name = "code", required = false) String authCode, HttpServletResponse response)
             throws IOException {
 
-        if (authCode == null) {
-            throw new RuntimeException("code is null");
-        }
+        System.out.println("code= " + authCode);
 
         LoginResultDto loginResult = kakaoLoginService.handleKakaoLogin(authCode);
         boolean isNewUser = loginResult.isNewUser();
