@@ -55,9 +55,6 @@ public class ExchangeKakaoAccessTokenImpl implements ExchangeKakaoAccessToken {
         if (responseEntity.getBody() == null || responseEntity.getBody().isBlank()) {
             return "";
         }
-        System.out.println("exchagesToken="+objectMapper.readTree(responseEntity.getBody())
-                .get("access_token")
-                .asText());
 
         return objectMapper.readTree(responseEntity.getBody())
                 .get("access_token")
