@@ -29,9 +29,7 @@ public class KakaoLoginService {
     @Transactional
     public LoginResultDto handleKakaoLogin(String authorizationCode) {
         String accessToken = exchangeKakaoAccessToken(authorizationCode);
-        System.out.println("accessToken="+accessToken);
         SocialUserProfileDto userProfile = fetchKakaoUserProfile(accessToken);
-        System.out.println("profile="+userProfile.getEmail());
 
         Optional<User> foundUser = oAuthUserRepository.findByEmail(userProfile.getEmail());
         boolean isNewUser = foundUser.isEmpty();
@@ -39,7 +37,6 @@ public class KakaoLoginService {
         User user = foundUser.orElseGet(() -> registerUser(userProfile));
 
         String token = createToken(user);
-        System.out.println("realToken="+token);
         return new LoginResultDto(token, isNewUser);
     }
 
