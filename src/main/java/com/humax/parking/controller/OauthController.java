@@ -36,8 +36,12 @@ public class OauthController {
 
     //카카오 소셜 로그인 구현
     @GetMapping("/oauth/kakao/login")
-    public void kakaoLogin(@RequestParam("code") String authCode, HttpServletResponse response)
+    public void kakaoLogin(@RequestParam(name = "code", required = false) String authCode, HttpServletResponse response)
             throws IOException {
+
+        if (authCode == null) {
+            throw new RuntimeException("code is null");
+        }
 
         LoginResultDto loginResult = kakaoLoginService.handleKakaoLogin(authCode);
         boolean isNewUser = loginResult.isNewUser();
@@ -50,7 +54,7 @@ public class OauthController {
         response.addCookie(authorization);
 
         //String redirectUrl = isNewUser? myPageUrl : mainPageUrl;
-        String redirectUrl = "/api/v1/parking/read/detail/1";
+        String redirectUrl = "/api/v1/parking/read/list";
         response.sendRedirect(redirectUrl);
     }
 }
