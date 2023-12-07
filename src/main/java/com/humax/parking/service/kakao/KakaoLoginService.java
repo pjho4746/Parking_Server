@@ -29,6 +29,7 @@ public class KakaoLoginService {
     @Transactional
     public LoginResultDto handleKakaoLogin(String authorizationCode) {
         String accessToken = exchangeKakaoAccessToken(authorizationCode);
+        System.out.println("accessToken="+accessToken);
         SocialUserProfileDto userProfile = fetchKakaoUserProfile(accessToken);
 
         Optional<User> foundUser = oAuthUserRepository.findByEmail(userProfile.getEmail());
