@@ -39,7 +39,7 @@ public class KakaoLoginService {
         User user = foundUser.orElseGet(() -> registerUser(userProfile));
 
         String token = createToken(user);
-
+        System.out.println("realToken="+token);
         return new LoginResultDto(token, isNewUser);
     }
 
