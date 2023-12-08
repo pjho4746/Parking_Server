@@ -30,23 +30,41 @@ public class UserRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+//    public List<ParkingEntity> findNearbyParking(double userLon, double userLat, int maxDistance) {
+//        QParkingEntity parkingEntity = QParkingEntity.parkingEntity;
+//
+//        return queryFactory
+//                .select(parkingEntity)
+//                .from(parkingEntity)
+//                .where(Expressions.numberTemplate(Double.class,
+//                                "FUNCTION('ST_Distance_Sphere', FUNCTION('POINT', {0}, {1}), FUNCTION('POINT', {2}, {3}))",
+//                                parkingEntity.lon, parkingEntity.lat, userLon, userLat)
+//                        .loe(maxDistance))
+//                .orderBy(Expressions.numberTemplate(Double.class,
+//                        "FUNCTION('ST_Distance_Sphere', FUNCTION('POINT', {0}, {1}), FUNCTION('POINT', {2}, {3}))",
+//                        parkingEntity.lon, parkingEntity.lat, userLon, userLat).asc())
+//                .fetch();
+//    }
     public List<ParkingEntity> findNearbyParking(double userLon, double userLat, int maxDistance) {
         QParkingEntity parkingEntity = QParkingEntity.parkingEntity;
 
-        return queryFactory
-                .select(parkingEntity)
-                .from(parkingEntity)
-                .where(Expressions.numberTemplate(Double.class,
-                                "FUNCTION('ST_Distance_Sphere', FUNCTION('POINT', {0}, {1}), FUNCTION('POINT', {2}, {3}))",
-                                parkingEntity.lon, parkingEntity.lat, userLon, userLat)
-                        .loe(maxDistance))
-                .orderBy(Expressions.numberTemplate(Double.class,
-                        "FUNCTION('ST_Distance_Sphere', FUNCTION('POINT', {0}, {1}), FUNCTION('POINT', {2}, {3}))",
-                        parkingEntity.lon, parkingEntity.lat, userLon, userLat).asc())
-                .fetch();
+       return queryFactory
+            .select(parkingEntity)
+            .from(parkingEntity)
+            .where(
+                    Expressions.numberTemplate(Double.class,
+                                    "ROUND(6371 * 2 * ASIN(SQRT(POW(SIN((RADIANS({0}) - RADIANS({1})) / 2), 2) + " +
+                                            "COS(RADIANS({1})) * COS(RADIANS({0})) * POW(SIN((RADIANS({2}) - RADIANS({3})) / 2), 2))), 2)",
+                                    parkingEntity.lat, userLat, parkingEntity.lon, userLon)
+                            .loe(maxDistance)
+            )
+            .orderBy(Expressions.numberTemplate(Double.class,
+                    "ROUND(6371 * 2 * ASIN(SQRT(POW(SIN((RADIANS({0}) - RADIANS({1})) / 2), 2) + " +
+                            "COS(RADIANS({1})) * COS(RADIANS({0})) * POW(SIN((RADIANS({2}) - RADIANS({3})) / 2), 2))), 2)",
+                    parkingEntity.lat, userLat, parkingEntity.lon, userLon).asc())
+
+            .fetch();
     }
-
-
 }
 
 

@@ -4,12 +4,14 @@ import com.humax.parking.dto.*;
 import com.humax.parking.model.ParkingEntity;
 import com.humax.parking.repository.ParkingRepository;
 import com.humax.parking.repository.UserRepository;
-import java.util.ArrayList;
+
+import java.util.*;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +21,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ParkingRepository parkingRepository;
+    private final StringRedisTemplate stringRedisTemplate;
+    private static final String SEARCH_COUNT_KEY_PREFIX = "search_count:";
 
     public List<ParkingInfoDTO> findNearbyParking(UserLocationDTO userLocationDTO){
         try{
@@ -109,9 +113,10 @@ public class UserService {
     }
 
 
-    private void updateSearchCount(List<ParkingEntity> parkingEntities){
-        for(ParkingEntity parkingEntity : parkingEntities){
-            parkingEntity.setSearchCount(parkingEntity.getSearchCount()+1);
+    public void updateSearchCount(List<ParkingEntity> parkingEntities) {
+        for (ParkingEntity parkingEntity : parkingEntities) {
+            String key = SEARCH_COUNT_KEY_PREFIX + parkingEntity.getParkingId();
+            stringRedisTemplate.opsForValue().increment(key);
         }
     }
 
@@ -140,5 +145,29 @@ public class UserService {
         parkingInfoDTO.setApplyWeekend(parkingEntity.getApplyWeekend());
 
         return parkingInfoDTO;
+    }
+    public Map<String, String> getAllSearchCounts(){
+        Set<String> keys = stringRedisTemplate.keys(SEARCH_COUNT_KEY_PREFIX + "*");
+
+        if(keys != null && !keys.isEmpty()){
+            List<String> keyList = new ArrayList<>(keys);
+            List<String> values = stringRedisTemplate.opsForValue().multiGet(keyList);
+
+            Map<String, String> searchCounts = new HashMap<>();
+            for(int i = 0; i < keyList.size(); i++){
+                String key = keyList.get(i);
+                String parkingId = key.substring(SEARCH_COUNT_KEY_PREFIX.length());
+                String count = values.get(i);
+                searchCounts.put(parkingId, count);
+            }
+            return searchCounts;
+        }
+        return Collections.emptyMap();
+    }
+
+    public int getSearchCount(Long parkingId) {
+        String key = SEARCH_COUNT_KEY_PREFIX + parkingId;
+        String count = stringRedisTemplate.opsForValue().get(key);
+        return count != null ? Integer.parseInt(count) : 0;
     }
 }
