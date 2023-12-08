@@ -11,5 +11,7 @@ services:
   redis:
     container_name: redis
     image: jiho314518/humax16_redis
+    expose:
+      - "6380"
     ports:
-      - "6379:6379"
+      - "6380:6380"
