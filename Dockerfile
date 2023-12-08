@@ -7,4 +7,4 @@ ENTRYPOINT ["java", "-jar", "/myboot.jar"]
 FROM redis
 # COPY conf/redis.conf /usr/local/etc/redis/redis.conf
 CMD [ "redis-server"]
-EXPOSE 6380
+EXPOSE 6379
