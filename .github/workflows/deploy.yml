@@ -55,6 +55,7 @@ jobs:
           script: |
             cd Parking_Server
             sudo docker rm -f web
+            sudo docker rm -f redis
             sudo docker pull ${{ secrets.DOCKER_REPO }}
             sudo docker pull ${{ secrets.DOCKER_REPO_REDIS }}
             docker-compose up -d
