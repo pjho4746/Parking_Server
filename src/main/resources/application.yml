@@ -38,6 +38,13 @@ spring:
   redis:
     host : my-redis
     port: 6379
+jwt:
+  secretKey: humax_parking_software16humax_parking_software16humax_parking_software16
+  blacklist:
+    access-token: BlackList_AccessToken_
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 logging:
   level:
