@@ -54,4 +54,6 @@ jobs:
           envs: GITHUB_SHA
           script: |
             cd Parking_Server
+            sudo apt-get update
+            sudo apt-get install -y docker-compose
             sudo docker-compose -f docker-compose.yml -f docker-redis-compose.yml up -d
