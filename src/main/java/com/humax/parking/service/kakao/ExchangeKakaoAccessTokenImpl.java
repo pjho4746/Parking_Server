@@ -18,17 +18,22 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class ExchangeKakaoAccessTokenImpl implements ExchangeKakaoAccessToken {
-    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
-    private String restApiKey;
+//    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
+//    private String restApiKey;
+//
+//    @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
+//    private String clientSecret;
+//
+//    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
+//    private String redirectURI;
+//
+//    @Value("${spring.security.oauth2.client.provider.kakao.token_uri}")
+//    private String endPoint;
 
-    @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
-    private String clientSecret;
-
-    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
-    private String redirectURI;
-
-    @Value("${spring.security.oauth2.client.provider.kakao.token_uri}")
-    private String endPoint;
+    private String restApiKey = "9f5309f7fc6b371a2a96d9cfdbd304cd";
+    private String clientSecret = "RxK1mFbQAWd16bZlWq0gCS7CbHtAP535";
+    private String redirectURI = "http://3.34.236.224:3000/oauth/kakao/login";
+    private String endPoint = "https://kauth.kakao.com/oauth/token";
 
     @Override
     public String doExchange(String authorizationCode) {
