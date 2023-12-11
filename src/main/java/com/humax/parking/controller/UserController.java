@@ -2,14 +2,20 @@ package com.humax.parking.controller;
 
 
 import com.humax.parking.dto.*;
+import com.humax.parking.model.ParkingEntity;
+import com.humax.parking.model.User;
+import com.humax.parking.repository.ParkingRepository;
+import com.humax.parking.service.BookmarkService;
 import com.humax.parking.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -17,6 +23,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final ParkingRepository parkingRepository;
+    private final BookmarkService bookmarkService;
     @PostMapping("/search")
     public ResponseEntity<List<ParkingInfoDTO>> getNearParking(@RequestBody UserLocationDTO userLocationDTO){
         try{
@@ -46,6 +54,30 @@ public class UserController {
         } catch (Exception e) {
             log.error("주차장 상세 정보를 가져오는 중 오류 발생: {}", parkingId, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping("/add/{parkingId}")
+    public ResponseEntity<String> addBookmark(@AuthenticationPrincipal User user, @PathVariable Long parkingId) {
+        Optional<ParkingEntity> parkingEntityOptional = parkingRepository.findByParkingId(parkingId);
+
+        if (parkingEntityOptional.isPresent()) {
+            bookmarkService.addBookmark(user, parkingEntityOptional.get());
+            return ResponseEntity.ok("찜 완료");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주차장을 찾을 수 없습니다.");
+        }
+    }
+
+    @PostMapping("/remove/{parkingId}")
+    public ResponseEntity<String> removeBookmark(@AuthenticationPrincipal User user, @PathVariable Long parkingId) {
+        Optional<ParkingEntity> parkingEntityOptional = parkingRepository.findByParkingId(parkingId);
+
+        if (parkingEntityOptional.isPresent()) {
+            bookmarkService.removeBookmark(user, parkingEntityOptional.get());
+            return ResponseEntity.ok("찜 해제 완료");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주차장을 찾을 수 없습니다.");
         }
     }
 }
