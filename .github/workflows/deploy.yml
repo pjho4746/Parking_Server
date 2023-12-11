@@ -39,10 +39,10 @@ jobs:
       - name: Docker build & push to docker repo
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }} .
-          docker push ${{ secrets.DOCKER_REPO }}
-          docker build -f Dockerfile-redis -t ${{ secrets.DOCKER_REPO_REDIS }} .
-          docker push ${{ secrets.DOCKER_REPO_REDIS }}      
+          docker-compose -f docker-compose-web.yml build
+          docker-compose -f docker-compose-web.yml push
+          docker-compose -f docker-compose-redis.yml build
+          docker-compose -f docker-compose-redis.yml push
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
@@ -54,8 +54,4 @@ jobs:
           envs: GITHUB_SHA
           script: |
             cd Parking_Server
-            sudo docker rm -f web
-            sudo docker rm -f redis || true
-            sudo docker pull ${{ secrets.DOCKER_REPO }}
-            sudo docker pull ${{ secrets.DOCKER_REPO_REDIS }}
-            docker-compose up -d
+            sudo docker-compose -f docker-compose-web.yml -f docker-compose-redis.yml up -d

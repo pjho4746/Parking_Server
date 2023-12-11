@@ -2,6 +2,9 @@ version: '3'
 
 services:
   web:
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: web
     image: jiho314518/humax16
     expose:
@@ -9,13 +12,13 @@ services:
     ports:
       - "3000:3000"
 
-  redis:
-    build:
-      context: .
-      dockerfile: Dockerfile-redis
-    container_name: redis
-    image: jiho314518/humax16_redis
-    expose:
-      - "6379"
-    ports:
-      - "6380:6379"
+#  redis:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile-redis
+#    container_name: redis애
+#    image: jiho314518/humax16_redis
+#    expose:
+#      - "6379"
+#    ports:
+#      - "6379:6379"
