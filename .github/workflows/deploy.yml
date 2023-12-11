@@ -41,8 +41,8 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker-compose -f docker-compose.yml build
           docker-compose -f docker-compose.yml push
-          docker-compose -f docker-compose-redis.yml build
-          docker-compose -f docker-compose-redis.yml push
+          docker-compose -f docker-redis-compose.yml build
+          docker-compose -f docker-redis-compose.yml push
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
@@ -54,4 +54,4 @@ jobs:
           envs: GITHUB_SHA
           script: |
             cd Parking_Server
-            sudo docker-compose -f docker-compose.yml -f docker-compose-redis.yml up -d
+            sudo docker-compose -f docker-compose.yml -f docker-redis-compose.yml up -d

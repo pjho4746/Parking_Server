@@ -16,7 +16,7 @@ services:
 #    build:
 #      context: .
 #      dockerfile: Dockerfile-redis
-#    container_name: redis애
+#    container_name: redis
 #    image: jiho314518/humax16_redis
 #    expose:
 #      - "6379"
