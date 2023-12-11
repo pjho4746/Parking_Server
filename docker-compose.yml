@@ -13,11 +13,8 @@ services:
       - "3000:3000"
 
   redis:
-    build:
-      context: .
-      dockerfile: Dockerfile-redis
-    container_name: redis
-    image: jiho314518/humax16_redis
+    container_name: my-redis
+    image: redis
     expose:
       - "6379"
     ports:
