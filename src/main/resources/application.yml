@@ -39,7 +39,6 @@ spring:
     host : my-redis
     port: 6379
 
-
 logging:
   level:
     root: debug
