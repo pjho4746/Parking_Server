@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secretKey}")
-    private String jwtSecretKey;
-    //private String jwtSecretKey = "humax_parking_software16humax_parking_software16humax_parking_software16";
+//    @Value("${jwt.secretKey}")
+//    private String jwtSecretKey;
+    private String jwtSecretKey = "humax_parking_software16humax_parking_software16humax_parking_software16";
 
 
     //@Value("${JWT_EXPIRATION_TIME}")
