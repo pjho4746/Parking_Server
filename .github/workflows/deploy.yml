@@ -41,7 +41,7 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }} .
           docker push ${{ secrets.DOCKER_REPO }}
-          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO_REDIS }} .
+          docker build -f Dockerfile-redis -t ${{ secrets.DOCKER_REPO_REDIS }} .
           docker push ${{ secrets.DOCKER_REPO_REDIS }}      
 
       - name: Deploy to server
