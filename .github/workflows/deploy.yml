@@ -32,7 +32,9 @@ jobs:
         shell: bash
 
       - name: Build Spring Boot JAR
-        run: ./gradlew bootJar
+        run: |
+          chmod +x ./gradlew
+          ./gradlew bootJar
 
       - name: Build with Gradle
         run: |
