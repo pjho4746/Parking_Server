@@ -12,10 +12,13 @@ services:
     ports:
       - "3000:3000"
 
-  my-redis:
+  redis:
     container_name: my-redis
     image: redis
     expose:
       - "6379"
     ports:
       - "6379:6379"
+networks:
+  my-network:
+    driver: bridge
