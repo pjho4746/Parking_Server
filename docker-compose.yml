@@ -12,7 +12,7 @@ services:
     ports:
       - "3000:3000"
 
-  redis:
+  my-redis:
     container_name: my-redis
     image: redis
     expose:
