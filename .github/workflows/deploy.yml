@@ -31,6 +31,9 @@ jobs:
           echo "${{ secrets.PROPERTIES }}" > ./application.yml
         shell: bash
 
+      - name: Build Spring Boot JAR
+        run: ./gradlew bootJar
+
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew
