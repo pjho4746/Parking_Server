@@ -33,9 +33,6 @@ spring:
           show_sql: true
           format_sql: true
         org.hibernate.type.descriptor.sql: trace
-  logging:
-    level:
-      root: debug
   session:
     store-type: redis
   redis:
@@ -49,3 +46,7 @@ jwt:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+logging:
+  level:
+    root: debug
