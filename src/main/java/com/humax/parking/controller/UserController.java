@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class UserController {
     private final UserService userService;
     private final ParkingRepository parkingRepository;
     private final BookmarkService bookmarkService;
+
     @PostMapping("/search")
     public ResponseEntity<List<ParkingInfoDTO>> getNearParking(@RequestBody UserLocationDTO userLocationDTO){
         try{
@@ -58,14 +60,22 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addBookmark(@RequestParam Long userId, @RequestParam Long parkingId) {
-        bookmarkService.addBookmark(userId, parkingId);
+    public ResponseEntity<String> addBookmark(@RequestHeader("Authorization") String token, @RequestParam Long parkingId) {
+        bookmarkService.addBookmark(token, parkingId);
         return ResponseEntity.ok("찜 완료");
     }
 
     @PostMapping("/remove")
-    public ResponseEntity<String> removeBookmark(@RequestParam Long userId, @RequestParam Long parkingId) {
-        bookmarkService.removeBookmark(userId, parkingId);
+    public ResponseEntity<String> removeBookmark(@RequestHeader("Authorization") String token, @RequestParam Long parkingId) {
+        bookmarkService.removeBookmark(token, parkingId);
         return ResponseEntity.ok("찜 해제 완료");
     }
+
+    // 즐겨찾기한 주차장 리스트 조회
+    @GetMapping("/bookmark/list")
+    public ResponseEntity<List<ParkingInfoDTO>> getBookmarkList(@RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(bookmarkService.getBookmarkList(token));
+
+    }
+
 }
