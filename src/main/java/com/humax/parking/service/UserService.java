@@ -53,6 +53,25 @@ public class UserService {
         return time;
     }
 
+    public LocalDateTime saveOutTime(String token, Long parkingId, LocalDateTime time){
+        Long userId = jwtUtil.getUserId(token);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        ParkingEntity parkingEntity = parkingRepository.findById(parkingId)
+                .orElseThrow(() -> new RuntimeException("주차장을 찾을 수 없습니다."));
+
+        Enter enter = Enter.builder()
+                .user(user)
+                .parkingEntity(parkingEntity)
+                .exitTime(time)
+                .build();
+        enterRepository.save(enter);
+
+        return time;
+    }
+
 
     public List<ParkingInfoDTO> findNearbyParking(UserLocationDTO userLocationDTO){
         try{

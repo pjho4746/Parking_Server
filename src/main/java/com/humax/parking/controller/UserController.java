@@ -2,8 +2,6 @@ package com.humax.parking.controller;
 
 
 import com.humax.parking.dto.*;
-import com.humax.parking.model.ParkingEntity;
-import com.humax.parking.model.User;
 import com.humax.parking.repository.ParkingRepository;
 import com.humax.parking.service.BookmarkService;
 import com.humax.parking.service.UserService;
@@ -11,12 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -80,7 +76,13 @@ public class UserController {
 
     // 입차 시간 기록
     @PostMapping("/enter")
-    public ResponseEntity<String> enterParkingTime(@RequestHeader("Authorization") String token, @RequestBody EnterTimeDTO enterTimeDTO){
+    public ResponseEntity<LocalDateTime> enterParkingTime(@RequestHeader("Authorization") String token, @RequestBody TimeDTO enterTimeDTO){
         return ResponseEntity.status(HttpStatus.OK).body(userService.saveEnterTime(token, enterTimeDTO.getParkingId(), enterTimeDTO.getCreatedAt()));
+    }
+
+    // 출자 시간 기록
+    @PostMapping("/out")
+    public ResponseEntity<LocalDateTime> outParkingTime(@RequestHeader("Authorization") String token, @RequestBody TimeDTO outTimeDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.saveOutTime(token, outTimeDTO.getParkingId(), outTimeDTO.getCreatedAt()));
     }
 }

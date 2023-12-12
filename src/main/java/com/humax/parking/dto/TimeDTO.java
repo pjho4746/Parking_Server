@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnterTimeDTO {
+public class TimeDTO {
     private Long parkingId;
     private LocalDateTime createdAt;
 
     @Builder
-    public EnterTimeDTO(Long parkingId) {
+    public TimeDTO(Long parkingId) {
         this.parkingId = parkingId;
         this.createdAt = LocalDateTime.now();
     }
