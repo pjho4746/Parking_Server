@@ -81,7 +81,10 @@ public class BookmarkService {
     @Transactional
     public List<ParkingInfoDTO> getBookmarkList(String token){
         Long userId = extractUserIdFromToken(token);
-        List<Bookmark> bookmarks = bookmarkRepository.findBookmarkByUser(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        List<Bookmark> bookmarks = bookmarkRepository.findBookmarkByUser(user.getUserId());
 
         List<ParkingInfoDTO> parkingInfoDTOS = new ArrayList<>();
         for(Bookmark bookmark : bookmarks){
