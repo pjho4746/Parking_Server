@@ -57,7 +57,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/add/{parkingId}")
+    @PostMapping("/add/{parking_id}")
     public ResponseEntity<String> addBookmark(@AuthenticationPrincipal User user, @PathVariable Long parkingId) {
         Optional<ParkingEntity> parkingEntityOptional = parkingRepository.findByParkingId(parkingId);
 
@@ -69,7 +69,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/remove/{parkingId}")
+    @PostMapping("/remove/{parking_id}")
     public ResponseEntity<String> removeBookmark(@AuthenticationPrincipal User user, @PathVariable Long parkingId) {
         Optional<ParkingEntity> parkingEntityOptional = parkingRepository.findByParkingId(parkingId);
 
