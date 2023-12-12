@@ -74,6 +74,7 @@ public class UserController {
     // 즐겨찾기한 주차장 리스트 조회
     @GetMapping("/bookmark/list")
     public ResponseEntity<List<ParkingInfoDTO>> getBookmarkList(@RequestHeader("Authorization") String token){
-        return ResponseEntity.ok(bookmarkService.getBookmarkList(token));
+        return ResponseEntity.status(HttpStatus.OK).body(bookmarkService.getBookmarkList(token));
+        //return ResponseEntity.ok(bookmarkService.getBookmarkList(token));
     }
 }

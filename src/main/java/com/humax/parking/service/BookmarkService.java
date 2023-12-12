@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -78,13 +79,32 @@ public class BookmarkService {
         return jwtUtil.getUserId(token);
     }
 
+//    @Transactional
+//    public List<ParkingInfoDTO> getBookmarkList2(String token) {
+//        Long userId = extractUserIdFromToken(token);
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+//
+//        return bookmarkRepository.findBookmarkByUser(user.getUserId()).stream()
+//                .map(bookmark -> {
+//                    if (bookmark.getBookmarkId() == null) {
+//                        throw new RuntimeException("즐겨찾기한 주차장을 찾을 수 없습니다.");
+//                    }
+//
+//                    ParkingEntity parkingEntity = bookmark.getParkingEntity();
+//                    return new ParkingInfoDTO(parkingEntity);
+//                })
+//                .collect(Collectors.toList());
+//    }
+
+
     @Transactional
     public List<ParkingInfoDTO> getBookmarkList(String token){
         Long userId = extractUserIdFromToken(token);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-
-        List<Bookmark> bookmarks = bookmarkRepository.findBookmarkByUser(user.getUserId());
+        
+        List<Bookmark> bookmarks = bookmarkRepository.findBookmarkByUser(user);
 
         List<ParkingInfoDTO> parkingInfoDTOS = new ArrayList<>();
         for(Bookmark bookmark : bookmarks){
@@ -118,6 +138,5 @@ public class BookmarkService {
             parkingInfoDTOS.add(parkingInfoDTO);
         }
         return parkingInfoDTOS;
-
     }
 }

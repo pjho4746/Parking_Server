@@ -30,6 +30,26 @@ public class ParkingInfoDTO {
 
     public ParkingInfoDTO(){}
 
+//    public ParkingInfoDTO(ParkingEntity parkingEntity) {
+//        this.parkingId = parkingEntity.getParkingId();
+//        this.name = parkingEntity.getName();
+//        this.address = parkingEntity.getAddress();
+//        this.lat = parkingEntity.getLat();
+//        this.lon = parkingEntity.getLon();
+//        this.operatingTime = parkingEntity.getOperatingTime();
+//        this.normalSeason = parkingEntity.getNormalSeason();
+//        this.tenantSeason = parkingEntity.getTenantSeason();
+//        this.timeTicket = parkingEntity.getTimeTicket();
+//        this.dayTicket = parkingEntity.getDayTicket();
+//        this.specialDay = parkingEntity.getSpecialDay();
+//        this.specialHour = parkingEntity.getSpecialHour();
+//        this.specialNight = parkingEntity.getSpecialNight();
+//        this.specialWeekend = parkingEntity.getSpecialWeekend();
+//        this.applyDay = parkingEntity.getApplyDay();
+//        this.applyHour = parkingEntity.getApplyHour();
+//        this.applyNight = parkingEntity.getApplyNight();
+//        this.applyWeekend = parkingEntity.getApplyWeekend();
+//    }
 }
 
 

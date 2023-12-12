@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -71,4 +72,8 @@ public class User {
 //        this.profileImageFilename = profileImageFileName;
 //        this.profileImageUrl = profileImageUrl;
 //    }
+//
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Bookmark> bookmarks;
 }
