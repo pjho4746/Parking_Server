@@ -64,16 +64,11 @@ public class UserService {
 
         Enter enter1 = enterRepository.findByUser(user);
 
-        Enter enter = Enter.builder()
-                .enterId(enter1.getEnterId())
-                .user(user)
-                .parkingEntity(parkingEntity)
-                .exitTime(time)
-                .build();
-        enterRepository.save(enter);
+        enterRepository.updateExitTimeById(time, enter1.getEnterId());
 
         return time;
     }
+
 
 
     public List<ParkingInfoDTO> findNearbyParking(UserLocationDTO userLocationDTO){
