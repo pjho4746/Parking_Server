@@ -39,13 +39,13 @@ public class Enter {
     private User user;
 
 
-    @Column(name="car_number", nullable = false)
+    @Column(name="car_number")
     private String carNumber;
 
-    @Column(name="entry_time", nullable = false)
+    @Column(name="entry_time")
     private LocalDateTime entryTime;
 
-    @Column(name="exit_time", nullable = false)
+    @Column(name="exit_time")
     private LocalDateTime exitTime;
 
 }
