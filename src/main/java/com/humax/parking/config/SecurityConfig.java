@@ -16,11 +16,14 @@ public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
 
+    private final CorsConfig corsConfig;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors().and()
+                .cors().configurationSource(corsConfig.corsConfigurationSource())
+                .and()
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .antMatchers("/**").permitAll() // 모든 경로에 대해 인증 없이 접근 허용
