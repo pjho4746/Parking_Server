@@ -1,10 +1,16 @@
 package com.humax.parking.service;
 
+import com.humax.parking.common.util.JwtUtil;
 import com.humax.parking.dto.*;
+import com.humax.parking.model.Bookmark;
+import com.humax.parking.model.Enter;
 import com.humax.parking.model.ParkingEntity;
+import com.humax.parking.model.User;
+import com.humax.parking.repository.EnterRepository;
 import com.humax.parking.repository.ParkingRepository;
 import com.humax.parking.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import lombok.RequiredArgsConstructor;
@@ -21,8 +27,32 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ParkingRepository parkingRepository;
+
+    private final EnterRepository enterRepository;
     private final StringRedisTemplate stringRedisTemplate;
+
+    private final JwtUtil jwtUtil;
     private static final String SEARCH_COUNT_KEY_PREFIX = "search_count:";
+
+    public LocalDateTime saveEnterTime(String token, Long parkingId, LocalDateTime time){
+        Long userId = jwtUtil.getUserId(token);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        ParkingEntity parkingEntity = parkingRepository.findById(parkingId)
+                .orElseThrow(() -> new RuntimeException("주차장을 찾을 수 없습니다."));
+
+        Enter enter = Enter.builder()
+                .user(user)
+                .parkingEntity(parkingEntity)
+                .entryTime(time)
+                .build();
+        enterRepository.save(enter);
+
+        return time;
+    }
+
 
     public List<ParkingInfoDTO> findNearbyParking(UserLocationDTO userLocationDTO){
         try{

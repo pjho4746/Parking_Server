@@ -77,4 +77,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(bookmarkService.getBookmarkList(token));
         //return ResponseEntity.ok(bookmarkService.getBookmarkList(token));
     }
+
+    // 입차 시간 기록
+    @PostMapping("/enter")
+    public ResponseEntity<String> enterParkingTime(@RequestHeader("Authorization") String token, @RequestBody EnterTimeDTO enterTimeDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.saveEnterTime(token, enterTimeDTO.getParkingId(), enterTimeDTO.getCreatedAt()));
+    }
 }
