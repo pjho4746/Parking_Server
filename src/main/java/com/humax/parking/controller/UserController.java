@@ -60,13 +60,13 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addBookmark(@RequestHeader("Authorization") String token, @RequestBody Long parkingId) {
+    public ResponseEntity<String> addBookmark(@RequestHeader("Authorization") String token, @RequestParam Long parkingId) {
         bookmarkService.addBookmark(token, parkingId);
         return ResponseEntity.ok("찜 완료");
     }
 
     @PostMapping("/remove")
-    public ResponseEntity<String> removeBookmark(@RequestHeader("Authorization") String token, @RequestBody Long parkingId) {
+    public ResponseEntity<String> removeBookmark(@RequestHeader("Authorization") String token, @RequestParam Long parkingId) {
         bookmarkService.removeBookmark(token, parkingId);
         return ResponseEntity.ok("찜 해제 완료");
     }
@@ -75,7 +75,5 @@ public class UserController {
     @GetMapping("/bookmark/list")
     public ResponseEntity<List<ParkingInfoDTO>> getBookmarkList(@RequestHeader("Authorization") String token){
         return ResponseEntity.ok(bookmarkService.getBookmarkList(token));
-
     }
-
 }
