@@ -62,7 +62,10 @@ public class UserService {
         ParkingEntity parkingEntity = parkingRepository.findById(parkingId)
                 .orElseThrow(() -> new RuntimeException("주차장을 찾을 수 없습니다."));
 
+        Enter enter1 = enterRepository.findByUser(user);
+
         Enter enter = Enter.builder()
+                .enterId(enter1.getEnterId())
                 .user(user)
                 .parkingEntity(parkingEntity)
                 .exitTime(time)

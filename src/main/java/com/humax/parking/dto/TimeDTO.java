@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Data
 @Builder
@@ -18,6 +19,6 @@ public class TimeDTO {
     @Builder
     public TimeDTO(Long parkingId) {
         this.parkingId = parkingId;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 }
