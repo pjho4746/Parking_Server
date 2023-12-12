@@ -3,6 +3,8 @@ package com.humax.parking.repository;
 import com.humax.parking.dto.ParkingDTO;
 import com.humax.parking.model.ParkingEntity;
 import com.humax.parking.model.QParkingEntity;
+import com.humax.parking.model.QUser;
+import com.humax.parking.model.User;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.PersistenceContext;
 
 import static com.humax.parking.model.QParkingEntity.parkingEntity;
@@ -64,6 +67,15 @@ public class UserRepository {
                     parkingEntity.lat, userLat, parkingEntity.lon, userLon).asc())
 
             .fetch();
+    }
+
+    public Optional<User> findById(Long userId) {
+        return Optional.ofNullable(
+                queryFactory
+                        .selectFrom(QUser.user)
+                        .where(QUser.user.userId.eq(userId))
+                        .fetchOne()
+        );
     }
 }
 

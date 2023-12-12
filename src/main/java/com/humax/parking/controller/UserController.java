@@ -57,27 +57,15 @@ public class UserController {
         }
     }
 
-    @PostMapping("/add/{parking_id}")
-    public ResponseEntity<String> addBookmark(@AuthenticationPrincipal User user, @PathVariable Long parkingId) {
-        Optional<ParkingEntity> parkingEntityOptional = parkingRepository.findByParkingId(parkingId);
-
-        if (parkingEntityOptional.isPresent()) {
-            bookmarkService.addBookmark(user, parkingEntityOptional.get());
-            return ResponseEntity.ok("찜 완료");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주차장을 찾을 수 없습니다.");
-        }
+    @PostMapping("/add")
+    public ResponseEntity<String> addBookmark(@RequestParam Long userId, @RequestParam Long parkingId) {
+        bookmarkService.addBookmark(userId, parkingId);
+        return ResponseEntity.ok("찜 완료");
     }
 
-    @PostMapping("/remove/{parking_id}")
-    public ResponseEntity<String> removeBookmark(@AuthenticationPrincipal User user, @PathVariable Long parkingId) {
-        Optional<ParkingEntity> parkingEntityOptional = parkingRepository.findByParkingId(parkingId);
-
-        if (parkingEntityOptional.isPresent()) {
-            bookmarkService.removeBookmark(user, parkingEntityOptional.get());
-            return ResponseEntity.ok("찜 해제 완료");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주차장을 찾을 수 없습니다.");
-        }
+    @PostMapping("/remove")
+    public ResponseEntity<String> removeBookmark(@RequestParam Long userId, @RequestParam Long parkingId) {
+        bookmarkService.removeBookmark(userId, parkingId);
+        return ResponseEntity.ok("찜 해제 완료");
     }
 }
