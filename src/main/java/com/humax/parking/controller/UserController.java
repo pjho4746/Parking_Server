@@ -65,7 +65,7 @@ public class UserController {
     @PostMapping("/remove")
     public ResponseEntity<String> removeBookmark(@RequestHeader("Authorization") String token, @RequestParam Long parkingId) {
         bookmarkService.removeBookmark(token, parkingId);
-        return ResponseEntity.status(HttpStatus.OK).body("Bookmark clear complete");
+        return ResponseEntity.status(HttpStatus.OK).body("Unbookmark complete");
     }
 
     // 즐겨찾기한 주차장 리스트 조회
