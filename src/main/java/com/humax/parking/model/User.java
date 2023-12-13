@@ -34,7 +34,10 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-//    @Enumerated(EnumType.STRING)
+    @Column
+    private Integer status=0; // default=0;입차=1;출자=2;
+
+//      @Enumerated(EnumType.STRING)
 //    @Column(name = "login_type", nullable = false)
 //    private LoginType loginType;
 

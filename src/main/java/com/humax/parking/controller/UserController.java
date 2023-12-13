@@ -115,7 +115,7 @@ public class UserController {
     }
 
     // 현재 이용하고 있는 주차장 조회
-    @GetMapping("/myparking")
+    @GetMapping("/myParking")
     public ResponseEntity<ParkingInfoDTO> getMyParking(@RequestHeader("Authorization") String token){
         return ResponseEntity.status(HttpStatus.OK).body(userService.getMyParking(token));
    }

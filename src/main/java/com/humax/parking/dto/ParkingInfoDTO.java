@@ -3,6 +3,8 @@ package com.humax.parking.dto;
 import com.humax.parking.model.ParkingEntity;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -27,6 +29,11 @@ public class ParkingInfoDTO {
     private String applyHour;
     private String applyNight;
     private String applyWeekend;
+
+    private LocalDateTime entryTime;
+    private LocalDateTime exitTime;
+
+    private Integer status; // 입출차 상태 반환
 
     public ParkingInfoDTO(){}
 

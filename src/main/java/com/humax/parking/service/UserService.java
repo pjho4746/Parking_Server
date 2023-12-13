@@ -284,6 +284,10 @@ public class UserService {
         ParkingEntity parkingEntity = enter.getParkingEntity();
         ParkingInfoDTO parkingInfoDTO = convertToParkingInfoDTO(parkingEntity);
 
+        parkingInfoDTO.setEntryTime(enter.getEntryTime());
+        parkingInfoDTO.setExitTime(enter.getExitTime());
+        parkingInfoDTO.setStatus(user.getStatus());
+
         return parkingInfoDTO;
 
     }
