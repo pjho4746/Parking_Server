@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -167,8 +168,6 @@ public class UserService {
         }
     }
 
-
-    //  ParkingEntity를 ParkingInfoDTO로 변환 (stream 적용 안됨)
     private ParkingInfoDTO convertToParkingInfoDTO(ParkingEntity parkingEntity) {
         ParkingInfoDTO parkingInfoDTO = new ParkingInfoDTO();
 
@@ -217,4 +216,62 @@ public class UserService {
         String count = stringRedisTemplate.opsForValue().get(key);
         return count != null ? Integer.parseInt(count) : 0;
     }
+
+    public ParkingUsageDTO getParkingUsage(String token, Long parkingId){
+        Long userId = jwtUtil.getUserId(token);
+
+        ParkingEntity parkingEntity = parkingRepository.findById(parkingId)
+                .orElseThrow(() -> new RuntimeException("주차장을 찾을 수 없습니다."));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        Enter enter = enterRepository.findByUserAndParkingEntity(user, parkingEntity);
+        if (enter == null) {
+            throw new RuntimeException("주차 이용 내역이 없습니다.");
+        }
+
+        LocalDateTime entryTime = enter.getEntryTime();
+        LocalDateTime exitTime = enter.getExitTime();
+
+        if (entryTime == null || exitTime == null) {
+            throw new RuntimeException("입차 또는 출차 시간이 기록되지 않았습니다.");
+        }
+
+        long usageMinutes = calculateUsageMinutes(entryTime, exitTime);
+
+        ParkingUsageDTO parkingUsageDTO = ParkingUsageDTO.builder()
+                .parkingId(parkingEntity.getParkingId())
+                .name(parkingEntity.getName())
+                .address(parkingEntity.getAddress())
+                .lat(parkingEntity.getLat())
+                .lon(parkingEntity.getLon())
+                .operatingTime(parkingEntity.getOperatingTime())
+                .normalSeason(parkingEntity.getNormalSeason())
+                .tenantSeason(parkingEntity.getTenantSeason())
+                .timeTicket(parkingEntity.getTimeTicket())
+                .dayTicket(parkingEntity.getDayTicket())
+                .specialDay(parkingEntity.getSpecialDay())
+                .specialHour(parkingEntity.getSpecialHour())
+                .specialNight(parkingEntity.getSpecialNight())
+                .specialWeekend(parkingEntity.getSpecialWeekend())
+                .applyDay(parkingEntity.getApplyDay())
+                .applyHour(parkingEntity.getApplyHour())
+                .applyNight(parkingEntity.getApplyNight())
+                .applyWeekend(parkingEntity.getApplyWeekend())
+                .usageMinutes(usageMinutes) // 이용 주차장 정보 & 이용 시간 (분)
+                .build();
+
+
+        // 요금 계산을 완료했다면, 해당 데이터는 삭제
+        enterRepository.delete(enter);
+
+        return parkingUsageDTO;
+    }
+
+    private long calculateUsageMinutes(LocalDateTime entryTime, LocalDateTime exitTime){
+        return java.time.Duration.between(entryTime, exitTime).toMinutes();
+    }
+
 }
+
