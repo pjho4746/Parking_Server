@@ -67,7 +67,8 @@ public class UserService {
         ParkingEntity parkingEntity = parkingRepository.findById(parkingId)
                 .orElseThrow(() -> new RuntimeException("주차장을 찾을 수 없습니다."));
 
-        Enter enter1 = enterRepository.findByUser(user);
+        Enter enter1 = enterRepository.findByUser(user)
+                .orElseThrow(() -> new RuntimeException("사용 중인 주차장이 없습니다."));
 
         enterRepository.updateExitTimeById(time, enter1.getEnterId());
 
@@ -283,7 +284,8 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        Enter enter = enterRepository.findByUser(user);
+        Enter enter = enterRepository.findByUser(user)
+                .orElseThrow(() -> new RuntimeException("사용 중인 주차장이 없습니다."));
 
         ParkingEntity parkingEntity = enter.getParkingEntity();
         ParkingInfoDTO parkingInfoDTO = convertToParkingInfoDTO(parkingEntity);

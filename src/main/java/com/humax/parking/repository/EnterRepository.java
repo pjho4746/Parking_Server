@@ -11,9 +11,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public interface EnterRepository extends JpaRepository<Enter, Long> {
-    Enter findByUser(User user);
+    Optional<Enter> findByUser(User user);
 
     @Transactional
     @Modifying
