@@ -8,6 +8,7 @@ import com.humax.parking.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,13 +59,17 @@ public class UserController {
     @PostMapping("/add")
     public ResponseEntity<String> addBookmark(@RequestHeader("Authorization") String token, @RequestParam Long parkingId) {
         bookmarkService.addBookmark(token, parkingId);
-        return ResponseEntity.ok("찜 완료");
+        return ResponseEntity.ok()
+                .contentType(MediaType.TEXT_PLAIN)
+                .body("찜 완료");
     }
 
     @PostMapping("/remove")
     public ResponseEntity<String> removeBookmark(@RequestHeader("Authorization") String token, @RequestParam Long parkingId) {
         bookmarkService.removeBookmark(token, parkingId);
-        return ResponseEntity.ok("찜 해제 완료");
+        return ResponseEntity.ok()
+                .contentType(MediaType.TEXT_PLAIN)
+                .body("찜 해제 완료");
     }
 
     // 즐겨찾기한 주차장 리스트 조회
