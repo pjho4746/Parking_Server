@@ -41,6 +41,8 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
+        user.setStatus(1); // 입차를 했다면, 상태정보는 1
+
         ParkingEntity parkingEntity = parkingRepository.findById(parkingId)
                 .orElseThrow(() -> new RuntimeException("주차장을 찾을 수 없습니다."));
 
@@ -59,6 +61,8 @@ public class UserService {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        user.setStatus(2); // 출차까지 완료했다면, 상태는 2
 
         ParkingEntity parkingEntity = parkingRepository.findById(parkingId)
                 .orElseThrow(() -> new RuntimeException("주차장을 찾을 수 없습니다."));
