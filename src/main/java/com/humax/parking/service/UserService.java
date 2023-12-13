@@ -273,5 +273,20 @@ public class UserService {
         return java.time.Duration.between(entryTime, exitTime).toMinutes();
     }
 
+    public ParkingInfoDTO getMyParking(String token){
+        Long userId = jwtUtil.getUserId(token);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        Enter enter = enterRepository.findByUser(user);
+
+        ParkingEntity parkingEntity = enter.getParkingEntity();
+        ParkingInfoDTO parkingInfoDTO = convertToParkingInfoDTO(parkingEntity);
+
+        return parkingInfoDTO;
+
+    }
+
 }
 

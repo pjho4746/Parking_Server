@@ -113,4 +113,10 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류가 발생했습니다.");
         }
     }
+
+    // 현재 이용하고 있는 주차장 조회
+    @GetMapping("/myparking")
+    public ResponseEntity<ParkingInfoDTO> getMyParking(@RequestHeader("Authorization") String token){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getMyParking(token));
+   }
 }
