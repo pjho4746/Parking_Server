@@ -45,11 +45,3 @@ jwt:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-
-springdoc:
-  version: 0.0.1
-  default-consumes-media-type: application/json # media-type 디폴트값 설정
-  default-produces-media-type: application/json
-  swagger-ui:
-    path: /swagger-ui.html
-

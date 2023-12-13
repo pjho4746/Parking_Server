@@ -59,13 +59,13 @@ public class UserController {
     @PostMapping("/add")
     public ResponseEntity<String> addBookmark(@RequestHeader("Authorization") String token, @RequestParam Long parkingId) {
         bookmarkService.addBookmark(token, parkingId);
-        return ResponseEntity.status(HttpStatus.OK).body("찜 완료");
+        return ResponseEntity.status(HttpStatus.OK).body("Bookmark complete");
     }
 
     @PostMapping("/remove")
     public ResponseEntity<String> removeBookmark(@RequestHeader("Authorization") String token, @RequestParam Long parkingId) {
         bookmarkService.removeBookmark(token, parkingId);
-        return ResponseEntity.status(HttpStatus.OK).body("찜 해제 완료");
+        return ResponseEntity.status(HttpStatus.OK).body("Bookmark clear complete");
     }
 
     // 즐겨찾기한 주차장 리스트 조회
