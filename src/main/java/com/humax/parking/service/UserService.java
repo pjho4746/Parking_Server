@@ -2,6 +2,7 @@ package com.humax.parking.service;
 
 import com.humax.parking.common.util.JwtUtil;
 import com.humax.parking.dto.*;
+import com.humax.parking.exception.NotFoundException;
 import com.humax.parking.model.Bookmark;
 import com.humax.parking.model.Enter;
 import com.humax.parking.model.ParkingEntity;
@@ -39,12 +40,12 @@ public class UserService {
         Long userId = jwtUtil.getUserId(token);
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
 
         user.setStatus(1); // 입차를 했다면, 상태정보는 1
 
         ParkingEntity parkingEntity = parkingRepository.findById(parkingId)
-                .orElseThrow(() -> new RuntimeException("주차장을 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("주차장을 찾을 수 없습니다."));
 
         Enter enter = Enter.builder()
                 .user(user)
@@ -60,15 +61,15 @@ public class UserService {
         Long userId = jwtUtil.getUserId(token);
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
 
         user.setStatus(2); // 출차까지 완료했다면, 상태는 2
 
         ParkingEntity parkingEntity = parkingRepository.findById(parkingId)
-                .orElseThrow(() -> new RuntimeException("주차장을 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("주차장을 찾을 수 없습니다."));
 
         Enter enter1 = enterRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("사용 중인 주차장이 없습니다."));
+                .orElseThrow(() -> new NotFoundException("사용 중인 주차장이 없습니다."));
 
         enterRepository.updateExitTimeById(time, enter1.getEnterId());
 
@@ -119,7 +120,7 @@ public class UserService {
             return parkingInfoDTOs;
         } catch (Exception e){
             e.printStackTrace();
-            throw new RuntimeException("가까운 주차장을 찾지 못했습니다.", e);
+            throw new NotFoundException("가까운 주차장을 찾지 못했습니다.");
         }
     }
 
@@ -130,14 +131,14 @@ public class UserService {
                     .map(this::convertToParkingInfoDTO)  // 변환 메서드 호출
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            throw new RuntimeException("주차장 정보 목록을 가져오는 중 오류 발생", e);
+            throw new NotFoundException("주차장 정보 목록을 가져오는 중 오류 발생");
         }
     }
 
     public ParkingInfoDTO getParkingDetail(Long parkingId) {
         try {
             ParkingEntity parkingEntity = parkingRepository.findById(parkingId)
-                    .orElseThrow(() -> new RuntimeException(parkingId + "번 주차장을 찾을 수 없습니다."));
+                    .orElseThrow(() -> new NotFoundException("해당 주차장은 존재하지 않습니다."));
 
             ParkingInfoDTO parkingDetail = new ParkingInfoDTO();
             parkingDetail.setParkingId(parkingEntity.getParkingId());
@@ -161,7 +162,7 @@ public class UserService {
 
             return parkingDetail;
         } catch (Exception e) {
-            throw new RuntimeException("주차장 상세 정보를 가져오는 중 오류 발생", e);
+            throw new NotFoundException("주차장 상세 정보를 가져오는 중 오류 발생");
         }
     }
 
@@ -226,21 +227,21 @@ public class UserService {
         Long userId = jwtUtil.getUserId(token);
 
         ParkingEntity parkingEntity = parkingRepository.findById(parkingId)
-                .orElseThrow(() -> new RuntimeException("주차장을 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("주차장을 찾을 수 없습니다."));
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
 
         Enter enter = enterRepository.findByUserAndParkingEntity(user, parkingEntity);
         if (enter == null) {
-            throw new RuntimeException("주차 이용 내역이 없습니다.");
+            throw new NotFoundException("주차 이용 내역이 없습니다.");
         }
 
         LocalDateTime entryTime = enter.getEntryTime();
         LocalDateTime exitTime = enter.getExitTime();
 
         if (entryTime == null || exitTime == null) {
-            throw new RuntimeException("입차 또는 출차 시간이 기록되지 않았습니다.");
+            throw new NotFoundException("입차 또는 출차 시간이 기록되지 않았습니다.");
         }
 
         long usageMinutes = calculateUsageMinutes(entryTime, exitTime);
@@ -282,10 +283,10 @@ public class UserService {
         Long userId = jwtUtil.getUserId(token);
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
 
         Enter enter = enterRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("사용 중인 주차장이 없습니다."));
+                .orElseThrow(() -> new NotFoundException("사용 중인 주차장이 없습니다."));
 
         ParkingEntity parkingEntity = enter.getParkingEntity();
         ParkingInfoDTO parkingInfoDTO = convertToParkingInfoDTO(parkingEntity);
