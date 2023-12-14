@@ -87,20 +87,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.saveOutTime(token, outTimeDTO.getParkingId(), outTimeDTO.getCreatedAt()));
     }
 
-    // 주차장 이용 시간 조회
-//    @PostMapping("/parking/use")
-//    public ResponseEntity<String> getParkingUsage(@RequestHeader("Authorization") String token, @RequestBody Long parkingId){
-//        try{
-//            String resultMessage = userService.getParkingUsage(token, parkingId);
-//            return ResponseEntity.status(HttpStatus.OK).body(resultMessage);
-//        } catch(RuntimeException e){
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류가 발생했습니다.");
-//        }
-//    }
-
     @PostMapping("/parking/use")
     public ResponseEntity<?> getParkingUsage(@RequestHeader("Authorization") String token, @RequestBody Long parkingId) {
         try {
