@@ -1,6 +1,7 @@
 package com.humax.parking.service;
 
 import com.humax.parking.dto.ParkingDTO;
+import com.humax.parking.exception.DuplicateException;
 import com.humax.parking.model.ParkingEntity;
 import com.humax.parking.repository.ParkingRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class ParkingService {
     public void createParkingInfo(ParkingDTO parkingDTO) {
         ParkingEntity parkingEntity = parkingRepository.findByCodeNumber(parkingDTO.getCodeNumber());
         if (parkingEntity != null) { // 이미 저장된 값이 있다면 에러 반환
-            throw new RuntimeException("ParkingEntity already exists with the given code number.");
+            throw new DuplicateException("중복된 코드 넘버가 존재합니다.");
         } else {
             // 해당 코드 넘버를 가진 ParkingEntity가 없는 경우에만 새로운 엔티티 생성하여 저장
             parkingEntity = parkingDTO.toEntity();

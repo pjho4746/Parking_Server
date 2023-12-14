@@ -1,6 +1,7 @@
 package com.humax.parking.service;
 
 import com.humax.parking.common.util.JwtUtil;
+import com.humax.parking.exception.NotFoundException;
 import com.humax.parking.model.Bookmark;
 import com.humax.parking.dto.*;
 import com.humax.parking.model.ParkingEntity;
@@ -53,23 +54,23 @@ public class BookmarkService {
         Long userId = extractUserIdFromToken(token);
 
         ParkingEntity parkingEntity = parkingRepository.findById(parkingId)
-                .orElseThrow(() -> new RuntimeException("주차장을 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 주차장입니다."));
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
 
         Bookmark bookmark = bookmarkRepository.findByUserAndParkingEntity(user, parkingEntity)
-                .orElseThrow(() -> new RuntimeException("찜하지 않은 주차장입니다."));
+                .orElseThrow(() -> new NotFoundException("찜하지 않은 주차장입니다."));
 
         bookmarkRepository.delete(bookmark);
     }
 
     public boolean isBookmarked(Long userId, Long parkingId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
 
         ParkingEntity parkingEntity = parkingRepository.findById(parkingId)
-                .orElseThrow(() -> new RuntimeException("주차장을 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("주차장을 찾을 수 없습니다."));
 
         return bookmarkRepository.existsByUserAndParkingEntity(user, parkingEntity);
     }
@@ -102,14 +103,14 @@ public class BookmarkService {
     public List<ParkingInfoDTO> getBookmarkList(String token){
         Long userId = extractUserIdFromToken(token);
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
 
         List<Bookmark> bookmarks = bookmarkRepository.findBookmarkByUser(user);
 
         List<ParkingInfoDTO> parkingInfoDTOS = new ArrayList<>();
         for(Bookmark bookmark : bookmarks){
             if(bookmark.getBookmarkId()==null){
-                throw new RuntimeException("즐겨찾기한 주차장을 찾을 수 없습니다. ");
+                throw new NotFoundException("찜한 주차장을 찾을 수 없습니다.");
             }
 
             ParkingEntity parkingEntity = bookmark.getParkingEntity();
