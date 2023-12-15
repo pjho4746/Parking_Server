@@ -35,6 +35,8 @@ public class ParkingInfoDTO {
 
     private Integer status; // 입출차 상태 반환
 
+    private Integer bookStatus;
+
     public ParkingInfoDTO(){}
 
 //    public ParkingInfoDTO(ParkingEntity parkingEntity) {
