@@ -93,6 +93,14 @@ public class JwtFilter extends OncePerRequestFilter {
                 "/api/v1/parking/update",
                 "/api/v1/parking/delete/**",
                 "/api/v1/user/search",
+                "/api/v1/user/read/detail/**",
+                "/api/v1/user/read/list",
+                "/api/v1/user/parking/use",
+                "api/v1/user/enter",
+                "api/v1/user/out",
+                "api/v1/user/add/**",
+                "api/v1/user/remove/**",
+                "api/v1/user/bookmark/list",
                 "swagger-ui/**",
                 "/favicon.ico");
 
