@@ -32,7 +32,7 @@ public class ExchangeKakaoAccessTokenImpl implements ExchangeKakaoAccessToken {
 
     private String restApiKey = "9f5309f7fc6b371a2a96d9cfdbd304cd";
     private String clientSecret = "RxK1mFbQAWd16bZlWq0gCS7CbHtAP535";
-    private String redirectURI = "http://localhost:3000/oauth/kakao/login";
+    private String redirectURI = "https://www.turu-parking.com/oauth/kakao/login";
     private String endPoint = "https://kauth.kakao.com/oauth/token";
 
     @Override
