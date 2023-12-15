@@ -29,6 +29,9 @@ public class SecurityConfig {
                                 .antMatchers("/**").permitAll() // 모든 경로에 대해 인증 없이 접근 허용
                                 .anyRequest().authenticated() // 그 외의 요청에는 인증 필요
                 )
+                .oauth2Login()
+                .successHandler(new LoginSuccessHandler("/"))
+                .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
