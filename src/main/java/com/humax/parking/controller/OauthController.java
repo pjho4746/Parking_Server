@@ -33,7 +33,7 @@ public class OauthController {
             redirectUrl = "https://kauth.kakao.com/oauth/authorize?client_id=9f5309f7fc6b371a2a96d9cfdbd304cd&redirect_uri=http://3.34.236.224:3000/oauth/kakao/login&response_type=code";
         } else {
             // 배포 환경 또는 기본적으로 설정할 환경 처리
-            redirectUrl = "https://kauth.kakao.com/oauth/authorize?client_id=9f5309f7fc6b371a2a96d9cfdbd304cd&redirect_uri=https://turu-parking.com/oauth/kakao/login&response_type=code";
+            redirectUrl = "https://kauth.kakao.com/oauth/authorize?client_id=9f5309f7fc6b371a2a96d9cfdbd304cd&redirect_uri=http://3.34.236.224:3000/oauth/kakao/login&response_type=code";
         }
 
         response.sendRedirect(redirectUrl);
