@@ -43,6 +43,8 @@ public class ParkingDTO {
 
     private Long searchCount;
 
+    private Integer statusBookmark;
+
 
     public ParkingDTO(final ParkingEntity entity){
         this.parkingId = entity.getParkingId();

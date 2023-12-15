@@ -1,9 +1,16 @@
 package com.humax.parking.service;
 
+import com.humax.parking.common.util.JwtUtil;
 import com.humax.parking.dto.ParkingDTO;
+import com.humax.parking.dto.ParkingInfoDTO;
 import com.humax.parking.exception.DuplicateException;
+import com.humax.parking.exception.NotFoundException;
+import com.humax.parking.model.Bookmark;
 import com.humax.parking.model.ParkingEntity;
+import com.humax.parking.model.User;
+import com.humax.parking.repository.BookmarkRepository;
 import com.humax.parking.repository.ParkingRepository;
+import com.humax.parking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +28,12 @@ public class ParkingService {
 
     private final ParkingRepository parkingRepository;
 
+    private final BookmarkRepository bookmarkRepository;
+
+    private final JwtUtil jwtUtil;
+
+    private final UserRepository userRepository;
+
     @Transactional
     public void createParkingInfo(ParkingDTO parkingDTO) {
         ParkingEntity parkingEntity = parkingRepository.findByCodeNumber(parkingDTO.getCodeNumber());
@@ -33,8 +46,24 @@ public class ParkingService {
         }
     }
 
+    public void setIsBookmark(User user, List<ParkingDTO> parkingDTOS){
+        List<Bookmark> bookmarks = bookmarkRepository.findBookmarkByUser(user);
+
+        for(ParkingDTO parkingDTO : parkingDTOS){
+            long parkingId = parkingDTO.getParkingId();
+            boolean isBookmark = bookmarks.stream().anyMatch(bookmark -> bookmark.getParkingEntity().getParkingId() == parkingId);
+            parkingDTO.setStatusBookmark(isBookmark ? 1: 0);
+        }
+
+    }
+
     @Transactional
-    public List<ParkingDTO> getParkingInfo() {
+    public List<ParkingDTO> getParkingInfo(String token) {
+        Long userId = jwtUtil.getUserId(token);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
+
         List<ParkingEntity> parkingEntities = parkingRepository.findAll();
         List<ParkingDTO> parkingDTOs = new ArrayList<>();
 
@@ -42,6 +71,8 @@ public class ParkingService {
             ParkingDTO parkingDTO = createParkingDTO(parkingEntity);
             parkingDTOs.add(parkingDTO);
         }
+        setIsBookmark(user, parkingDTOs);
+
         return parkingDTOs;
     }
 
