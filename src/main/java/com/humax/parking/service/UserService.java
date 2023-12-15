@@ -7,6 +7,7 @@ import com.humax.parking.model.Bookmark;
 import com.humax.parking.model.Enter;
 import com.humax.parking.model.ParkingEntity;
 import com.humax.parking.model.User;
+import com.humax.parking.repository.BookmarkRepository;
 import com.humax.parking.repository.EnterRepository;
 import com.humax.parking.repository.ParkingRepository;
 import com.humax.parking.repository.UserRepository;
@@ -29,6 +30,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ParkingRepository parkingRepository;
+
+    private final BookmarkRepository bookmarkRepository;
 
     private final EnterRepository enterRepository;
     private final StringRedisTemplate stringRedisTemplate;
@@ -74,6 +77,17 @@ public class UserService {
         enterRepository.updateExitTimeById(time, enter1.getEnterId());
 
         return time;
+    }
+
+    public void setIsBookmark(User user, List<ParkingInfoDTO> parkingInfoDTOS){
+        List<Bookmark> bookmarks = bookmarkRepository.findBookmarkByUser(user);
+
+        for(ParkingInfoDTO parkingInfoDTO : parkingInfoDTOS){
+            long parkingId = parkingInfoDTO.getParkingId();
+            boolean isBookmark = bookmarks.stream().anyMatch(bookmark -> bookmark.getParkingEntity().getParkingId() == parkingId);
+            parkingInfoDTO.setBookStatus(isBookmark ? 1: 0);
+        }
+
     }
 
 
