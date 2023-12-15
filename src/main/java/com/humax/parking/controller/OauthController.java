@@ -50,7 +50,7 @@ public class OauthController {
         response.addCookie(authorization);
 
         //String redirectUrl = isNewUser? myPageUrl : mainPageUrl;
-        String redirectUrl = "/api/v1/parking/main";
+        String redirectUrl = "/";
         response.sendRedirect(redirectUrl);
     }
 }

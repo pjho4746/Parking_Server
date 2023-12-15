@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
-@RequestMapping(value = "/api/v1/parking")
 public class ParkingMainController {
 
     private final UserService userService;
@@ -25,7 +24,7 @@ public class ParkingMainController {
         this.userService = userService;
     }
 
-    @GetMapping("/main")
+    @GetMapping("/")
     public ResponseEntity<List<ParkingInfoDTO>> getParkingInfoForUI(Model model) {
         try {
             // Redis에서 주차장 정보 가져오기
