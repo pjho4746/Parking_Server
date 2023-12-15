@@ -28,8 +28,8 @@ public class ParkingController {
     }
 
     @GetMapping("/read/list")
-    public ResponseEntity<List<ParkingDTO>> getParkingInfo(){
-        return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingInfo());
+    public ResponseEntity<List<ParkingDTO>> getParkingInfo(@RequestHeader(name = "Authorization", required = false) String token){
+        return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingInfo(token));
     }
 
     @GetMapping("/read/detail/{parking_id}")

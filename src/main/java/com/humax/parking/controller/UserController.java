@@ -25,9 +25,10 @@ public class UserController {
     private final BookmarkService bookmarkService;
 
     @PostMapping("/search")
-    public ResponseEntity<List<ParkingInfoDTO>> getNearParking(@RequestBody UserLocationDTO userLocationDTO){
+    public ResponseEntity<List<ParkingInfoDTO>> getNearParking(@RequestHeader("Authorization") String token,
+                                                               @RequestBody UserLocationDTO userLocationDTO){
         try{
-            List<ParkingInfoDTO> nearbyParking = userService.findNearbyParking(userLocationDTO);
+            List<ParkingInfoDTO> nearbyParking = userService.findNearbyParking(token, userLocationDTO);
             return ResponseEntity.status(HttpStatus.OK).body(nearbyParking);
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

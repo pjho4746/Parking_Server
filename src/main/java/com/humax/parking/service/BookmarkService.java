@@ -98,6 +98,16 @@ public class BookmarkService {
 //                .collect(Collectors.toList());
 //    }
 
+    public void setIsBookmark(User user, List<ParkingInfoDTO> parkingInfoDTOS){
+        List<Bookmark> bookmarks = bookmarkRepository.findBookmarkByUser(user);
+
+        for(ParkingInfoDTO parkingInfoDTO : parkingInfoDTOS){
+            long parkingId = parkingInfoDTO.getParkingId();
+            boolean isBookmark = bookmarks.stream().anyMatch(bookmark -> bookmark.getParkingEntity().getParkingId() == parkingId);
+            parkingInfoDTO.setBookStatus(isBookmark ? 1: 0);
+        }
+
+    }
 
     @Transactional
     public List<ParkingInfoDTO> getBookmarkList(String token){
@@ -138,6 +148,7 @@ public class BookmarkService {
 
             parkingInfoDTOS.add(parkingInfoDTO);
         }
+        setIsBookmark(user,parkingInfoDTOS);
         return parkingInfoDTOS;
     }
 }

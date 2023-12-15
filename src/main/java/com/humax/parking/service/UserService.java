@@ -92,8 +92,13 @@ public class UserService {
 
 
 
-    public List<ParkingInfoDTO> findNearbyParking(UserLocationDTO userLocationDTO){
+    public List<ParkingInfoDTO> findNearbyParking(String token, UserLocationDTO userLocationDTO){
         try{
+            Long userId = jwtUtil.getUserId(token);
+
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
+
             double userLatitude = Double.parseDouble(userLocationDTO.getLat());
             double userLongitude = Double.parseDouble(userLocationDTO.getLon());
             int maxDistance = userLocationDTO.getDistance();
@@ -128,7 +133,9 @@ public class UserService {
                 parkingInfoDTOs.add(parkingInfoDTO);
             }
 
-            // 검색 횟수 갱신
+            setIsBookmark(user, parkingInfoDTOs); // 찜 상태 반영영
+
+           // 검색 횟수 갱신
             updateSearchCount(nearParkingEntities);
 
             return parkingInfoDTOs;
