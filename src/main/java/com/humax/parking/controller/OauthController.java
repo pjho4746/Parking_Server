@@ -24,11 +24,11 @@ public class OauthController {
     @GetMapping("/kakao/login")
     public void redirectToKakaoLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 새로운 로직을 추가하여 환경을 판단하고 redirect를 수행합니다.
-        String host = request.getHeader("Host");
+        String referer = request.getHeader("Referer");
         String redirectUrl;
 
         // 호스트에 따라 환경 분기 처리
-        if (host != null && host.equals("localhost:3000")) {
+        if (referer != null && referer.startsWith("http://localhost:3000")) {
             // 로컬 환경 처리
             redirectUrl = "https://kauth.kakao.com/oauth/authorize?client_id=9f5309f7fc6b371a2a96d9cfdbd304cd&redirect_uri=http://3.34.236.224:3000/oauth/kakao/login&response_type=code";
         } else {
