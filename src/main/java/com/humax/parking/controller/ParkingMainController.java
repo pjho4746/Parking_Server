@@ -41,9 +41,9 @@ public class ParkingMainController {
                     .collect(Collectors.toList());
 
             // 메인 페이지에 전달할 데이터 설정
-            model.addAttribute("parkingInfoList", sortedParkingInfoList);
+            model.addAttribute("parkingInfoList", top10ParkingInfoList);
 
-            return ResponseEntity.status(HttpStatus.OK).body(sortedParkingInfoList);
+            return ResponseEntity.status(HttpStatus.OK).body(top10ParkingInfoList);
         } catch (Exception e) {
             log.error("주차장 정보 목록을 가져오는 중 오류 발생", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
