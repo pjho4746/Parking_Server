@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,20 +20,25 @@ public class OauthController {
 
     private final KakaoLoginService kakaoLoginService;
 
-    //@Value("${kakao.login-url}
-    //private String kakaoLoginUri;
-
-//    @Value("${MAIN_PAGE_URL}")
-//    private String mainPageUrl;
-//
-//    @Value("${MY_PAGE_URL}")
-//    private String myPageUrl;
-
     //클라이언트가 해당 엔드포인트에 접근하면, kakaoLoginUri로 리디렉션하여 사용자를 카카오 로그인 페이지로 보냅니다.
     @GetMapping("/kakao/login")
-    public void redirectToKakaoLogin(HttpServletResponse response) throws IOException {
-        response.sendRedirect("https://kauth.kakao.com/oauth/authorize?client_id=9f5309f7fc6b371a2a96d9cfdbd304cd&redirect_uri=http://3.34.236.224:3000/oauth/kakao/login&response_type=code");
+    public void redirectToKakaoLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 새로운 로직을 추가하여 환경을 판단하고 redirect를 수행합니다.
+        String host = request.getHeader("Host");
+        String redirectUrl;
+
+        // 호스트에 따라 환경 분기 처리
+        if (host != null && host.equals("localhost:3000")) {
+            // 로컬 환경 처리
+            redirectUrl = "https://kauth.kakao.com/oauth/authorize?client_id=9f5309f7fc6b371a2a96d9cfdbd304cd&redirect_uri=http://3.34.236.224:3000/oauth/kakao/login&response_type=code";
+        } else {
+            // 배포 환경 또는 기본적으로 설정할 환경 처리
+            redirectUrl = "https://kauth.kakao.com/oauth/authorize?client_id=9f5309f7fc6b371a2a96d9cfdbd304cd&redirect_uri=https://turu-parking.com/oauth/kakao/login&response_type=code";
+        }
+
+        response.sendRedirect(redirectUrl);
     }
+
 
     //카카오 소셜 로그인 구현
     @GetMapping("/oauth/kakao/login")
