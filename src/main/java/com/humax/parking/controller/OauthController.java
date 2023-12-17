@@ -13,6 +13,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,11 +40,32 @@ public class OauthController {
         response.sendRedirect(redirectUrl);
     }
 
-
     //카카오 소셜 로그인 구현
+//    @GetMapping("/oauth/kakao/login")
+//    public void kakaoLogin(@RequestParam(name = "code", required = false) String authCode, HttpServletResponse response)
+//            throws IOException {
+//
+//        LoginResultDto loginResult = kakaoLoginService.handleKakaoLogin(authCode);
+//        boolean isNewUser = loginResult.isNewUser();
+//
+//        Cookie authorization = new Cookie("Authorization", loginResult.getToken());
+//        authorization.setSecure(false); // HTTPS 연결에서만 쿠키 전송 localhost에서는 허용됨
+//        authorization.setHttpOnly(true); // JavaScript에서 접근 불가
+//        authorization.setPath("/"); // 전체 경로에 대해 쿠키 적용
+//        authorization.setMaxAge(3600); // 1시간 동안 유효
+//        response.addCookie(authorization);
+//
+//        //String redirectUrl = isNewUser? myPageUrl : mainPageUrl;
+//        String redirectUrl = "/";
+//
+//        // response.sendRedirect("https://www.turu-parking.com");
+//        response.sendRedirect(redirectUrl);
+//    }
+
     @GetMapping("/oauth/kakao/login")
-    public void kakaoLogin(@RequestParam(name = "code", required = false) String authCode, HttpServletResponse response,
-                           HttpServletRequest request)
+    public void kakaoLogin(@RequestParam(name = "code", required = false) String authCode,
+                           HttpServletResponse response, HttpServletRequest request)
+
             throws IOException {
 
         LoginResultDto loginResult = kakaoLoginService.handleKakaoLogin(authCode);
@@ -63,5 +85,6 @@ public class OauthController {
 //        String redirectUrl = "/";
 //        // response.sendRedirect("https://www.turu-parking.com");
 //        response.sendRedirect(redirectUrl);
+
     }
 }

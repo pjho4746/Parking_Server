@@ -35,10 +35,15 @@ public class ParkingMainController {
                     .sorted(Comparator.comparingInt(dto -> -userService.getSearchCount(dto.getParkingId())))
                     .collect(Collectors.toList());
 
-            // 메인 페이지에 전달할 데이터 설정
-            model.addAttribute("parkingInfoList", sortedParkingInfoList);
+            // 상위 10개 주차장 정력보만 선택
+            List<ParkingInfoDTO> top10ParkingInfoList = sortedParkingInfoList.stream()
+                    .limit(10)
+                    .collect(Collectors.toList());
 
-            return ResponseEntity.status(HttpStatus.OK).body(sortedParkingInfoList);
+            // 메인 페이지에 전달할 데이터 설정
+            model.addAttribute("parkingInfoList", top10ParkingInfoList);
+
+            return ResponseEntity.status(HttpStatus.OK).body(top10ParkingInfoList);
         } catch (Exception e) {
             log.error("주차장 정보 목록을 가져오는 중 오류 발생", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
