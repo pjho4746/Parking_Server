@@ -42,7 +42,8 @@ public class OauthController {
 
     //카카오 소셜 로그인 구현
     @GetMapping("/oauth/kakao/login")
-    public void kakaoLogin(@RequestParam(name = "code", required = false) String authCode, HttpServletResponse response)
+    public void kakaoLogin(@RequestParam(name = "code", required = false) String authCode, HttpServletResponse response,
+                           HttpServletRequest request)
             throws IOException {
 
         LoginResultDto loginResult = kakaoLoginService.handleKakaoLogin(authCode);
@@ -55,9 +56,12 @@ public class OauthController {
         authorization.setMaxAge(3600); // 1시간 동안 유효
         response.addCookie(authorization);
 
-        //String redirectUrl = isNewUser? myPageUrl : mainPageUrl;
-        String redirectUrl = "/";
-        // response.sendRedirect("https://www.turu-parking.com");
-        response.sendRedirect(redirectUrl);
+//        String referrer = request.getHeader("Referer");
+//        request.getSession().setAttribute("prevPage", referrer);
+//
+//        //String redirectUrl = isNewUser? myPageUrl : mainPageUrl;
+//        String redirectUrl = "/";
+//        // response.sendRedirect("https://www.turu-parking.com");
+//        response.sendRedirect(redirectUrl);
     }
 }
