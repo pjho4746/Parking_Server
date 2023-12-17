@@ -78,13 +78,13 @@ public class OauthController {
         authorization.setMaxAge(3600); // 1시간 동안 유효
         response.addCookie(authorization);
 
-//        String referrer = request.getHeader("Referer");
-//        request.getSession().setAttribute("prevPage", referrer);
-//
-//        //String redirectUrl = isNewUser? myPageUrl : mainPageUrl;
-//        String redirectUrl = "/";
-//        // response.sendRedirect("https://www.turu-parking.com");
-//        response.sendRedirect(redirectUrl);
+        String referrer = request.getHeader("Referer");
+        request.getSession().setAttribute("prevPage", referrer);
+
+        //String redirectUrl = isNewUser? myPageUrl : mainPageUrl;
+        String redirectUrl = "http://localhost:4000/login";
+        // response.sendRedirect("https://www.turu-parking.com");
+        response.sendRedirect(redirectUrl);
 
     }
 }
