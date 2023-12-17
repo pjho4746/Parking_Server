@@ -35,7 +35,7 @@ public class ParkingMainController {
                     .sorted(Comparator.comparingInt(dto -> -userService.getSearchCount(dto.getParkingId())))
                     .collect(Collectors.toList());
 
-            // 상위 10개 주차장 정력보만 선택
+            // 상위 10개 주차장 정보만 선택
             List<ParkingInfoDTO> top10ParkingInfoList = sortedParkingInfoList.stream()
                     .limit(10)
                     .collect(Collectors.toList());

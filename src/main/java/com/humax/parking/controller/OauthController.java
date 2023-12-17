@@ -2,9 +2,13 @@ package com.humax.parking.controller;
 
 
 import com.humax.parking.dto.LoginResultDto;
+import com.humax.parking.dto.ParkingInfoDTO;
+import com.humax.parking.service.UserService;
 import com.humax.parking.service.kakao.KakaoLoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,12 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.springframework.ui.Model;
 
 @RestController
 @RequiredArgsConstructor
 public class OauthController {
+
+    private final UserService userService;
 
     private final KakaoLoginService kakaoLoginService;
 
@@ -63,8 +73,8 @@ public class OauthController {
 //    }
 
     @GetMapping("/oauth/kakao/login")
-    public void kakaoLogin(@RequestParam(name = "code", required = false) String authCode,
-                           HttpServletResponse response, HttpServletRequest request)
+    public ResponseEntity<List<ParkingInfoDTO>> kakaoLogin(@RequestParam(name = "code", required = false) String authCode,
+                                                           HttpServletResponse response, HttpServletRequest request, Model model)
 
             throws IOException {
 
@@ -73,7 +83,7 @@ public class OauthController {
 
         Cookie authorization = new Cookie("Authorization", loginResult.getToken());
         authorization.setSecure(false); // HTTPS 연결에서만 쿠키 전송 localhost에서는 허용됨
-        authorization.setHttpOnly(false); // JavaScript에서 접근 불가 -> 허용
+        authorization.setHttpOnly(true); // JavaScript에서 접근 불가
         authorization.setPath("/"); // 전체 경로에 대해 쿠키 적용
         authorization.setMaxAge(3600); // 1시간 동안 유효
         response.addCookie(authorization);
@@ -82,8 +92,30 @@ public class OauthController {
         request.getSession().setAttribute("prevPage", referrer);
 
         //String redirectUrl = isNewUser? myPageUrl : mainPageUrl;
-        String redirectUrl = "http://localhost:4000/login";
+        //String redirectUrl = "/";
         // response.sendRedirect("https://www.turu-parking.com");
-        response.sendRedirect(redirectUrl);
+        //response.sendRedirect(redirectUrl);
+
+        try {
+            // Redis에서 주차장 정보 가져오기
+            List<ParkingInfoDTO> parkingInfoList = userService.getParkingInfo();
+
+            // 검색 횟수를 높은 순으로 정렬
+            List<ParkingInfoDTO> sortedParkingInfoList = parkingInfoList.stream()
+                    .sorted(Comparator.comparingInt(dto -> -userService.getSearchCount(dto.getParkingId())))
+                    .collect(Collectors.toList());
+
+            // 상위 10개 주차장 정보만 선택
+            List<ParkingInfoDTO> top10ParkingInfoList = sortedParkingInfoList.stream()
+                    .limit(10)
+                    .collect(Collectors.toList());
+
+            // 메인 페이지에 전달할 데이터 설정
+            model.addAttribute("parkingInfoList", top10ParkingInfoList);
+
+            return ResponseEntity.status(HttpStatus.OK).body(top10ParkingInfoList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }
