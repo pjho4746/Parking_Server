@@ -73,7 +73,7 @@ public class OauthController {
 
         Cookie authorization = new Cookie("Authorization", loginResult.getToken());
         authorization.setSecure(false); // HTTPS 연결에서만 쿠키 전송 localhost에서는 허용됨
-        authorization.setHttpOnly(true); // JavaScript에서 접근 불가
+        authorization.setHttpOnly(false); // JavaScript에서 접근 불가 -> 허용
         authorization.setPath("/"); // 전체 경로에 대해 쿠키 적용
         authorization.setMaxAge(3600); // 1시간 동안 유효
         response.addCookie(authorization);
@@ -85,6 +85,5 @@ public class OauthController {
         String redirectUrl = "http://localhost:4000/login";
         // response.sendRedirect("https://www.turu-parking.com");
         response.sendRedirect(redirectUrl);
-
     }
 }
