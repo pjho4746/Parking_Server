@@ -81,8 +81,11 @@ public class OauthController {
 
             throws IOException {
 
+        System.out.println("-------------인가코드"+authCode);
+
         LoginResultDto loginResult = kakaoLoginService.handleKakaoLogin(authCode);
         boolean isNewUser = loginResult.isNewUser();
+        System.out.println("-------------토큰"+loginResult.getToken());
 
         Cookie authorization = new Cookie("Authorization", loginResult.getToken());
         authorization.setSecure(false); // HTTPS 연결에서만 쿠키 전송 localhost에서는 허용됨
