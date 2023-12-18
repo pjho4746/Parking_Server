@@ -2,10 +2,10 @@
 🚗 Turu-Parking
 ---
 ## 📍백엔드 팀원 소개
-| [박지호](https://github.com/pjho4746)                                                            | [이하얀](https://github.com/hayannn)                                                             | [조예지](https://github.com/CYJhub)                                                                |
-|-----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| pjho4746@gmail.com                                                                            | dlgkdis801@naver.com                                                                          | yejee1018@naver.com                                                                             | 
-| ![박지호](https://github.com/CYJhub/CYJhub/assets/81136546/42b12c5b-8f9e-4580-984a-fba1ab9ee743) | ![이하얀](https://github.com/CYJhub/CYJhub/assets/81136546/bb585674-490c-4460-8dd7-82780017baeb) | ![yejee](https://github.com/CYJhub/CYJhub/assets/81136546/5439eca9-5704-4007-a68a-53bf101114ec) | 
+|                               [박지호](https://github.com/pjho4746)                                |                                [이하얀](https://github.com/hayannn)                                |                                 [조예지](https://github.com/CYJhub)                                  |
+|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------:|
+|                                       pjho4746@gmail.com                                        |                                      dlgkdis801@naver.com                                       |                                        yejee1018@naver.com                                        | 
+|  ![박지호](https://github.com/CYJhub/CYJhub/assets/81136546/42b12c5b-8f9e-4580-984a-fba1ab9ee743)  |  ![이하얀](https://github.com/CYJhub/CYJhub/assets/81136546/bb585674-490c-4460-8dd7-82780017baeb)  |  ![yejee](https://github.com/CYJhub/CYJhub/assets/81136546/5439eca9-5704-4007-a68a-53bf101114ec)  | 
 
 
 ## 📍개요
@@ -30,9 +30,10 @@ Turu-Parking은 휴맥스모빌리티의 주차 시설을 손쉽게 찾고 활�
 2. MySQL
 3. Redis
 3. AWS EC2
-4. Docker
-5. Nginx
-6. Github Actions
+4. AWS RDS
+5. Docker
+6. Nginx
+7. Github Actions
 
 ## 📍라이브러리
 1. lombok
@@ -48,7 +49,7 @@ Turu-Parking은 휴맥스모빌리티의 주차 시설을 손쉽게 찾고 활�
 11. querydsl
 12. jjwt
 
-
+---
 
 ## 📍프로젝트 구조
 ```
@@ -105,14 +106,13 @@ Turu-Parking은 휴맥스모빌리티의 주차 시설을 손쉽게 찾고 활�
     │               │   │   ├── 📑 FetchKakaoUserProfile.java
     │               │   │   ├── 📑 FetchKakaoUserProfileImpl.java
     │               │   │   └── 📑 KakaoLoginService.java
-    │               │   ├── 📑 BookmarkService.ja
-    │               │   ├── 📑 ParkingService.ja
+    │               │   ├── 📑 BookmarkService.java
+    │               │   ├── 📑 ParkingService.java
     │               └── └── 📑 UserService.java
     └── 🗂 resources
         └── 📑 application.yml      
 ```
-
-
+---
 
 ## commit message convention
 - feat: 새로운 기능 추가
