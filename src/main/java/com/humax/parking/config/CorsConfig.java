@@ -14,7 +14,7 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         //config.setAllowedOrigins(List.of("https://alzzaipo.com", "http://localhost:3000"));
-        config.setAllowedOriginPatterns(Arrays.asList("https://www.turu-parking.com","http://localhost:3000", "http://3.34.236.224:3000", "http://localhost:3001"));
+        config.setAllowedOriginPatterns(Arrays.asList("https://www.turu-parking.com","http://localhost:3000", "http://3.34.236.224:3000", "http://localhost:3001","http://localhost:4000"));
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
         config.setAllowCredentials(true);
