@@ -3,6 +3,7 @@ package com.humax.parking.controller;
 
 import com.humax.parking.dto.LoginResultDto;
 import com.humax.parking.dto.ParkingInfoDTO;
+import com.humax.parking.dto.TokenDTO;
 import com.humax.parking.service.UserService;
 import com.humax.parking.service.kakao.KakaoLoginService;
 import lombok.RequiredArgsConstructor;
@@ -75,8 +76,8 @@ public class OauthController {
 //    }
 
     @GetMapping("/oauth/kakao/login")
-    public Map<String, Object> kakaoLogin(@RequestParam(name = "code", required = false) String authCode,
-                                                           HttpServletResponse response, HttpServletRequest request, Model model)
+    public TokenDTO kakaoLogin(@RequestParam(name = "code", required = false) String authCode,
+                               HttpServletResponse response, HttpServletRequest request, Model model)
 
             throws IOException {
 
@@ -90,13 +91,16 @@ public class OauthController {
         authorization.setMaxAge(3600); // 1시간 동안 유효
         response.addCookie(authorization);
 
-        String referrer = request.getHeader("Referer");
-        request.getSession().setAttribute("prevPage", referrer);
+//        String referrer = request.getHeader("Referer");
+//        request.getSession().setAttribute("prevPage", referrer);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("token", loginResult.getToken());
-        result.put("sessionId", request.getSession().getId());
 
-        return result;
+        TokenDTO tokenDTO = new TokenDTO();
+        tokenDTO.setToken(loginResult.getToken());
+        tokenDTO.setSessionID(request.getSession().getId());
+
+        return tokenDTO;
+
+
     }
 }
