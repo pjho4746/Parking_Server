@@ -1,5 +1,5 @@
 
-Turu-Parking
+🚗 Turu-Parking
 ---
 ## 백엔드 팀원 소개
 | [박지호](https://github.com/pjho4746)                                                            | [이하얀](https://github.com/hayannn)                                                             | [조예지](https://github.com/CYJhub)                                                                |
