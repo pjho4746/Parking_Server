@@ -8,6 +8,7 @@ import com.humax.parking.service.UserService;
 import com.humax.parking.service.kakao.KakaoLoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -76,7 +78,7 @@ public class OauthController {
 //    }
 
     @GetMapping("/oauth/kakao/login")
-    public TokenDTO kakaoLogin(@RequestParam(name = "code", required = false) String authCode,
+    public ResponseEntity<Void> kakaoLogin(@RequestParam(name = "code", required = false) String authCode,
                                HttpServletResponse response, HttpServletRequest request, Model model)
 
             throws IOException {
@@ -94,16 +96,16 @@ public class OauthController {
         authorization.setMaxAge(3600); // 1시간 동안 유효
         response.addCookie(authorization);
 
-//        String referrer = request.getHeader("Referer");
-//        request.getSession().setAttribute("prevPage", referrer);
-
-
         TokenDTO tokenDTO = new TokenDTO();
         tokenDTO.setToken(loginResult.getToken());
         tokenDTO.setSessionID(request.getSession().getId());
 
-        return tokenDTO;
+        // URL 파라미터로 TokenDTO의 정보를 전달
+        String redirectUrl = "http://localhost:3000/main?token=" + loginResult.getToken() + "&sessionId=" + request.getSession().getId();
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(redirectUrl)); // 리다이렉트할 URL
+        return new ResponseEntity<>(headers, HttpStatus.FOUND); // HTTP 상태 코드 302 반환
 
     }
 }
