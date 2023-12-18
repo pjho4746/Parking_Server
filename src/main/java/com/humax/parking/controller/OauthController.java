@@ -101,7 +101,7 @@ public class OauthController {
         tokenDTO.setSessionID(request.getSession().getId());
 
         // URL 파라미터로 TokenDTO의 정보를 전달
-        String redirectUrl = "http://localhost:3000/main?token=" + loginResult.getToken() + "&sessionId=" + request.getSession().getId();
+        String redirectUrl = "http://localhost:4000/oauth/kakao/login?token=" + loginResult.getToken() + "&sessionId=" + request.getSession().getId();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(redirectUrl)); // 리다이렉트할 URL
