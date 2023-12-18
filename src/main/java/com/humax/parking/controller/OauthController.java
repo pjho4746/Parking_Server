@@ -17,7 +17,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -73,7 +75,7 @@ public class OauthController {
 //    }
 
     @GetMapping("/oauth/kakao/login")
-    public ResponseEntity<List<ParkingInfoDTO>> kakaoLogin(@RequestParam(name = "code", required = false) String authCode,
+    public Map<String, Object> kakaoLogin(@RequestParam(name = "code", required = false) String authCode,
                                                            HttpServletResponse response, HttpServletRequest request, Model model)
 
             throws IOException {
@@ -91,31 +93,10 @@ public class OauthController {
         String referrer = request.getHeader("Referer");
         request.getSession().setAttribute("prevPage", referrer);
 
-        //String redirectUrl = isNewUser? myPageUrl : mainPageUrl;
-        //String redirectUrl = "/";
-        // response.sendRedirect("https://www.turu-parking.com");
-        //response.sendRedirect(redirectUrl);
+        Map<String, Object> result = new HashMap<>();
+        result.put("token", loginResult.getToken());
+        result.put("sessionId", request.getSession().getId());
 
-        try {
-            // Redis에서 주차장 정보 가져오기
-            List<ParkingInfoDTO> parkingInfoList = userService.getParkingInfo();
-
-            // 검색 횟수를 높은 순으로 정렬
-            List<ParkingInfoDTO> sortedParkingInfoList = parkingInfoList.stream()
-                    .sorted(Comparator.comparingInt(dto -> -userService.getSearchCount(dto.getParkingId())))
-                    .collect(Collectors.toList());
-
-            // 상위 10개 주차장 정보만 선택
-            List<ParkingInfoDTO> top10ParkingInfoList = sortedParkingInfoList.stream()
-                    .limit(10)
-                    .collect(Collectors.toList());
-
-            // 메인 페이지에 전달할 데이터 설정
-            model.addAttribute("parkingInfoList", top10ParkingInfoList);
-
-            return ResponseEntity.status(HttpStatus.OK).body(top10ParkingInfoList);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+        return result;
     }
 }
