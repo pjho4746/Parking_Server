@@ -85,6 +85,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         List<String> allowedPath = Arrays.asList(
+                "/",
                 "/kakao/login",
                 "/oauth/kakao/login",
                 "/api/v1/parking/create",
