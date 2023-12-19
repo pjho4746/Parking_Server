@@ -91,7 +91,7 @@ public class OauthController {
 
         Cookie authorization = new Cookie("Authorization", loginResult.getToken());
         authorization.setSecure(false); // HTTPS 연결에서만 쿠키 전송 localhost에서는 허용됨
-        authorization.setHttpOnly(true); // JavaScript에서 접근 불가
+        authorization.setHttpOnly(false); // JavaScript에서 접근 불가=백엔드에서만 접근 가능 -> false
         authorization.setPath("/"); // 전체 경로에 대해 쿠키 적용
         authorization.setMaxAge(3600); // 1시간 동안 유효
         response.addCookie(authorization);
