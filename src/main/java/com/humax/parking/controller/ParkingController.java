@@ -32,8 +32,8 @@ public class ParkingController {
         return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingInfo(token));
     }
 
-    @GetMapping("/read/detail/{parking_id}")
-    public ResponseEntity<ParkingDTO> getParkingDetail(@PathVariable Long parking_id){
+    @GetMapping("/read/detail")
+    public ResponseEntity<ParkingDTO> getParkingDetail(@RequestBody Long parking_id){
         return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingDetail(parking_id));
     }
 
@@ -49,8 +49,8 @@ public class ParkingController {
         }
     }
 
-    @DeleteMapping("/delete/{parking_id}")
-    public ResponseEntity<String> deleteParking(@PathVariable Long parking_id) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteParking(@RequestBody Long parking_id) {
         parkingService.deleteParking(parking_id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("삭제되었습니다.");
     }

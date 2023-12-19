@@ -46,8 +46,8 @@ public class UserController {
         }
     }
 
-    @GetMapping("/read/detail/{parking_id}")
-    public ResponseEntity<ParkingInfoDTO> getParkingDetail(@PathVariable("parking_id") Long parkingId) {
+    @GetMapping("/read/detail")
+    public ResponseEntity<ParkingInfoDTO> getParkingDetail(@RequestBody Long parkingId) {
         try {
             ParkingInfoDTO parkingDetail = userService.getParkingDetail(parkingId);
             return ResponseEntity.status(HttpStatus.OK).body(parkingDetail);
@@ -58,13 +58,13 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addBookmark(@RequestHeader("Authorization") String token, @RequestParam Long parkingId) {
+    public ResponseEntity<String> addBookmark(@RequestHeader("Authorization") String token, @RequestBody Long parkingId) {
         bookmarkService.addBookmark(token, parkingId);
         return ResponseEntity.status(HttpStatus.OK).body("Bookmark complete");
     }
 
     @PostMapping("/remove")
-    public ResponseEntity<String> removeBookmark(@RequestHeader("Authorization") String token, @RequestParam Long parkingId) {
+    public ResponseEntity<String> removeBookmark(@RequestHeader("Authorization") String token, @RequestBody Long parkingId) {
         bookmarkService.removeBookmark(token, parkingId);
         return ResponseEntity.status(HttpStatus.OK).body("Unbookmark complete");
     }
