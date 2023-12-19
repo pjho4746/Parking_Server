@@ -33,7 +33,7 @@ public class ParkingController {
         return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingInfo(token));
     }
 
-    @GetMapping("/read/detail")
+    @PostMapping("/read/detail")
     public ResponseEntity<ParkingDTO> getParkingDetail(@RequestBody ParkingIdDTO parkingId){
         return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingDetail(parkingId.getParkingId()));
     }

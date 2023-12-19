@@ -46,7 +46,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/read/detail")
+    @PostMapping("/read/detail")
     public ResponseEntity<ParkingInfoDTO> getParkingDetail(@RequestBody ParkingIdDTO parkingId) {
         try {
             ParkingInfoDTO parkingDetail = userService.getParkingDetail(parkingId.getParkingId());
