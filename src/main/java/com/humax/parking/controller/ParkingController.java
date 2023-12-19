@@ -28,9 +28,9 @@ public class ParkingController {
         return ResponseEntity.status(HttpStatus.CREATED).body("성공적으로 추가되었습니다.");
     }
 
-    @GetMapping("/read/list")
-    public ResponseEntity<List<ParkingDTO>> getParkingInfo(@RequestHeader(name = "Authorization", required = false) String token){
-        return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingInfo(token));
+    @GetMapping("/read/detail/{parking_id}")
+    public ResponseEntity<ParkingDTO> getParkingDetail(@PathVariable Long parking_id){
+        return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingDetail(parking_id));
     }
 
     @PostMapping("/read/detail")
