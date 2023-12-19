@@ -33,9 +33,9 @@ public class ParkingController {
         return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingDetail(parking_id));
     }
 
-    @PostMapping("/read/detail")
-    public ResponseEntity<ParkingDTO> getParkingDetail(@RequestBody ParkingIdDTO parkingId){
-        return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingDetail(parkingId.getParkingId()));
+    @GetMapping("/read/list")
+    public ResponseEntity<List<ParkingDTO>> getParkingInfo(@RequestHeader(name = "Authorization", required = false) String token){
+        return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingInfo(token));
     }
 
     @PatchMapping("/update")
