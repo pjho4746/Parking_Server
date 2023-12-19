@@ -98,7 +98,7 @@ public class OauthController {
         response.addCookie(authorization);
 
         // URL 파라미터로 TokenDTO의 정보를 전달
-        String redirectUrl = "http://localhost:4000/oauth/kakao/login_progress?token=" + loginResult.getToken() + "&sessionId=" + request.getSession().getId();
+        String redirectUrl = "https://www.turu-parking.com/oauth/kakao/login_progress?token=" + loginResult.getToken() + "&sessionId=" + request.getSession().getId();
 
         // HttpHeaders에 Location을 설정하여 리다이렉트
         HttpHeaders headers = new HttpHeaders();
