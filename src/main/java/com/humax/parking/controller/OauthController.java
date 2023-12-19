@@ -78,7 +78,7 @@ public class OauthController {
 //    }
 
     @GetMapping("/oauth/kakao/login")
-    public void kakaoLogin(@RequestParam(name = "code", required = false) String authCode,
+    public ResponseEntity<Void> kakaoLogin(@RequestParam(name = "code", required = false) String authCode,
                                HttpServletResponse response, HttpServletRequest request, Model model)
 
             throws IOException {
@@ -103,10 +103,9 @@ public class OauthController {
         // URL 파라미터로 TokenDTO의 정보를 전달
         String redirectUrl = "http://localhost:4000/oauth/kakao/login_progress?token=" + loginResult.getToken() + "&sessionId=" + request.getSession().getId();
 
-        response.sendRedirect(redirectUrl);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(URI.create(redirectUrl)); // 리다이렉트할 URL
-//        return new ResponseEntity<>(headers, HttpStatus.FOUND); // HTTP 상태 코드 302 반환
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(redirectUrl)); // 리다이렉트할 URL
+        return new ResponseEntity<>(headers, HttpStatus.FOUND); // HTTP 상태 코드 302 반환
 
     }
 }
