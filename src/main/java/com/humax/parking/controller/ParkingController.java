@@ -1,6 +1,7 @@
 package com.humax.parking.controller;
 
 import com.humax.parking.dto.ParkingDTO;
+import com.humax.parking.dto.ParkingIdDTO;
 import com.humax.parking.model.ParkingEntity;
 import com.humax.parking.repository.ParkingRepository;
 import com.humax.parking.service.ParkingService;
@@ -33,8 +34,8 @@ public class ParkingController {
     }
 
     @GetMapping("/read/detail")
-    public ResponseEntity<ParkingDTO> getParkingDetail(@RequestBody Long parking_id){
-        return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingDetail(parking_id));
+    public ResponseEntity<ParkingDTO> getParkingDetail(@RequestBody ParkingIdDTO parkingId){
+        return ResponseEntity.status(HttpStatus.OK).body(parkingService.getParkingDetail(parkingId.getParkingId()));
     }
 
     @PatchMapping("/update")
@@ -50,8 +51,8 @@ public class ParkingController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteParking(@RequestBody Long parking_id) {
-        parkingService.deleteParking(parking_id);
+    public ResponseEntity<String> deleteParking(@RequestBody ParkingIdDTO parkingId) {
+        parkingService.deleteParking(parkingId.getParkingId());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("삭제되었습니다.");
     }
 }

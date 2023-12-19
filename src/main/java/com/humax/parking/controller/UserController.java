@@ -47,9 +47,9 @@ public class UserController {
     }
 
     @GetMapping("/read/detail")
-    public ResponseEntity<ParkingInfoDTO> getParkingDetail(@RequestBody Long parkingId) {
+    public ResponseEntity<ParkingInfoDTO> getParkingDetail(@RequestBody ParkingIdDTO parkingId) {
         try {
-            ParkingInfoDTO parkingDetail = userService.getParkingDetail(parkingId);
+            ParkingInfoDTO parkingDetail = userService.getParkingDetail(parkingId.getParkingId());
             return ResponseEntity.status(HttpStatus.OK).body(parkingDetail);
         } catch (Exception e) {
             log.error("주차장 상세 정보를 가져오는 중 오류 발생: {}", parkingId, e);
@@ -58,14 +58,14 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addBookmark(@RequestHeader("Authorization") String token, @RequestBody Long parkingId) {
-        bookmarkService.addBookmark(token, parkingId);
+    public ResponseEntity<String> addBookmark(@RequestHeader("Authorization") String token, @RequestBody ParkingIdDTO parkingId) {
+        bookmarkService.addBookmark(token, parkingId.getParkingId());
         return ResponseEntity.status(HttpStatus.OK).body("Bookmark complete");
     }
 
     @PostMapping("/remove")
-    public ResponseEntity<String> removeBookmark(@RequestHeader("Authorization") String token, @RequestBody Long parkingId) {
-        bookmarkService.removeBookmark(token, parkingId);
+    public ResponseEntity<String> removeBookmark(@RequestHeader("Authorization") String token, @RequestBody ParkingIdDTO parkingId) {
+        bookmarkService.removeBookmark(token, parkingId.getParkingId());
         return ResponseEntity.status(HttpStatus.OK).body("Unbookmark complete");
     }
 
