@@ -25,7 +25,7 @@ Turu-Parking은 휴맥스모빌리티의 주차 시설을 손쉽게 찾고 활�
 
 
 ## 📍기술 아키텍쳐
-![아키텍처](https://github.com/humax-sw-team16/Parking_Server/assets/81136546/efbd1712-28bb-44f1-88d2-963a6b97dde0)
+<img width="900" alt="KakaoTalk_20231218_192218188" src="https://github.com/humax-sw-team16/Parking_Server/assets/126854628/cd1168b3-036e-4a4f-93dd-e89e75ad7c97">
 
 ## 📍사용 기술스택
 1. SpringBoot
