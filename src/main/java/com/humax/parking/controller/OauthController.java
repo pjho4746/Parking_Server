@@ -89,6 +89,7 @@ public class OauthController {
         boolean isNewUser = loginResult.isNewUser();
         System.out.println("-------------토큰"+loginResult.getToken());
 
+        // 쿠키 생성
         Cookie authorization = new Cookie("Authorization", loginResult.getToken());
         authorization.setSecure(false); // HTTPS 연결에서만 쿠키 전송 localhost에서는 허용됨
         authorization.setHttpOnly(false); // JavaScript에서 접근 불가=백엔드에서만 접근 가능 -> false
@@ -96,15 +97,14 @@ public class OauthController {
         authorization.setMaxAge(3600); // 1시간 동안 유효
         response.addCookie(authorization);
 
-        TokenDTO tokenDTO = new TokenDTO();
-        tokenDTO.setToken(loginResult.getToken());
-        tokenDTO.setSessionID(request.getSession().getId());
-
         // URL 파라미터로 TokenDTO의 정보를 전달
         String redirectUrl = "http://localhost:4000/oauth/kakao/login_progress?token=" + loginResult.getToken() + "&sessionId=" + request.getSession().getId();
 
+        // HttpHeaders에 Location을 설정하여 리다이렉트
         HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.SET_COOKIE, authorization.getName() + "=" + authorization.getValue()); // 쿠키 설정
         headers.setLocation(URI.create(redirectUrl)); // 리다이렉트할 URL
+
         return new ResponseEntity<>(headers, HttpStatus.FOUND); // HTTP 상태 코드 302 반환
 
     }
