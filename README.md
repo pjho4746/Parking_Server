@@ -27,12 +27,13 @@ Turu-Parking은 휴맥스모빌리티의 주차 시설을 손쉽게 찾고 활�
 ## 📍기술 아키텍쳐
 ![아키텍쳐](https://github.com/humax-sw-team16/Parking_Server/assets/81136546/0a7791be-8476-489d-ba0f-87196cc6269d)
 
-## 📍주차별 산출물
-1주차 (https://drive.google.com/file/d/1KIfiOBeeB3bNzLyh7bgEtANPwovnD9JI/view?usp=sharing)
-2주차 (https://drive.google.com/file/d/1t2EOfvMw8x-vJBJWSlwPWItGgVq_y1KP/view?usp=sharing)
-3주차 (https://drive.google.com/file/d/10c2nO3ZynW4qpBuVMXhBSRdHlkyDGa9P/view?usp=sharing)
-4주차 (https://drive.google.com/file/d/1tOlK_BiCScQHvazrCmxGuL65_F-RTv_c/view?usp=sharing)
-5주차 (https://drive.google.com/file/d/1_K90-bEOPDxixqQhU1_uLkBqV_mdgtn9/view?usp=sharing)
+## 📍 주차별 산출물
+- [1주차](https://drive.google.com/file/d/1KIfiOBeeB3bNzLyh7bgEtANPwovnD9JI/view?usp=sharing)
+- [2주차](https://drive.google.com/file/d/1t2EOfvMw8x-vJBJWSlwPWItGgVq_y1KP/view?usp=sharing)
+- [3주차](https://drive.google.com/file/d/10c2nO3ZynW4qpBuVMXhBSRdHlkyDGa9P/view?usp=sharing)
+- [4주차](https://drive.google.com/file/d/1tOlK_BiCScQHvazrCmxGuL65_F-RTv_c/view?usp=sharing)
+- [5주차](https://drive.google.com/file/d/1_K90-bEOPDxixqQhU1_uLkBqV_mdgtn9/view?usp=sharing)
+
 
 ## 📍사용 기술스택
 1. SpringBoot
